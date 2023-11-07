@@ -1,0 +1,65 @@
+.register-container {
+    background-color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-card-container-parent {
+    width: 100%;
+    height: 70%;
+    background-color: #fff;
+    margin: 20px;
+    margin-bottom: 4%;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    display: flex;
+    justify-content: end;
+    z-index: 1;
+}
+
+.left-container{
+    width: 55%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+    z-index: 1;
+}
+
+.register-logo {
+    width: 45%;
+}
+
+.rigth-container {
+    width: 45%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    z-index: 1;
+}
+
+.register-text {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.text {
+    color: #111827;
+    margin-top: 10px;
+}
+
+.register-button {
+    width: 100% !important;
+    margin-top: 10px;
+    margin-left: 0 !important;
+}
+

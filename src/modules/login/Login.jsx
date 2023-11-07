@@ -6,7 +6,7 @@ import logo from '../../assets/images/logo.png'
 
 
 
-export default function Login() {
+const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const googleLogin = () => {
@@ -63,3 +63,5 @@ export default function Login() {
         </div>
     )
 }
+
+export default Login
