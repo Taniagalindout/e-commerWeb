@@ -5,6 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaUserAlt, FaCartPlus } from "react-icons/fa";
+import Logo from "../../assets/images/logo.png";
 
 function SideBar() {
   return (
@@ -14,13 +15,14 @@ function SideBar() {
           key={expand}
           expand={expand}
           className="mb-3"
-          style={{ backgroundColor: "#4D53DD" }}
+          sticky="top"
+
         >
           <Container fluid>
             <Navbar.Brand href="#">
               <img
-                src={"../../../assets/images/logo.png"}
-                width="30"
+                src={Logo}
+                width="90"
                 height="30"
                 className="d-inline-block align-top"
               />
@@ -32,12 +34,12 @@ function SideBar() {
                 className="me-2"
                 aria-label="Search"
               />
+                <FaCartPlus size={25} color="#4D53DD" className="me-2" />
+                <FaUserAlt size={25} color="#4D53DD" className="me-2" />
+                <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+
             </Form>
-            <div className="ms-auto">
-              <FaCartPlus size={30} color="white" className="me-3" />
-              <FaUserAlt size={30} color="white" />
-            </div>
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
               aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
