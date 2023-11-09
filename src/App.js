@@ -1,5 +1,6 @@
 import React from 'react';
-import Landing from './components/landing/Landing';
+//import Landing from './components/landing/Landing';
+import Landing from './modules/products/product_list/ListProducts';
 
 function App() {
   return (
