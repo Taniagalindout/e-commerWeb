@@ -6,13 +6,7 @@
     width: 100%;
     margin-bottom: 30px;
 
-    h1 {
-        text-transform: capitalize;
-        font-size: 2.2vw;
-        font-weight: 600;
-        color: rgb(10, 158, 136);
-        margin: 50px 0;
-    }
+ 
 
     &--inner {
         width: 80%;
@@ -34,14 +28,6 @@
                 height: 5vw;
             }
 
-            h2 {
-                width: 10vw;
-                font-size: 1.2vw;
-                font-weight: 600;
-                color: rgb(58, 58, 58);
-                text-transform: uppercase;
-                text-align: center;
-            }
 
             transition: all .1s ease;
 

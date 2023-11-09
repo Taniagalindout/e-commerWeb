@@ -1,7 +1,8 @@
 import SideBar from "../../../components/generals/Siderbar";
 import Category from "./list_components/Category";
 import Slider from "./list_components/Slider";
-import { categorias } from "./list_components/categorydata";
+import { categorias } from "./list_components/utilities/categorydata";
+import Product from "./list_components/Product";
 
 const ListProducts = () => {
     
@@ -13,7 +14,7 @@ const ListProducts = () => {
 
 <Category title="Categorías" data = {categorias}/>
 
-<h1>ACA IRAN LOS PRODUCTOS</h1>
+<Product title="Ropa" />
 </div>
 
 
