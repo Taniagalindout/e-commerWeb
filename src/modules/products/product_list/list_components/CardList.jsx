@@ -1,14 +1,15 @@
 import React from "react";
 import '../../../../assets/css/product.css'
 import { FaStar } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 const CardList = (props) => {
 
   return (
     <div>
 
       <div className="card">
-        <img className="product--image" src={props.url} alt="product image" />
+      {/* <Link to={`/${props.id}`}> */}
+        <img className="product--image" src={props.url[0]} alt="product image" />
         <h5>{props.name}</h5>
         <p className="price">{props.price}</p>
        
@@ -20,7 +21,7 @@ const CardList = (props) => {
           </div>
           <div className="productSales">({props.totalSales})</div>
         </div>
-       
+        {/* </Link> */}
       </div>
     </div>
 
