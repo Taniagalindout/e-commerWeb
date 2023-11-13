@@ -4,6 +4,7 @@ import logo from '../../assets/images/logo.png'
 import image from '../../assets/images/register-img.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +19,8 @@ const Register = () => {
                     </div>
                     <div className="rigth-container">
                         <h2 className='register-text'>Registrate</h2>
+                        <Link to="landing">Haz clic para ver la página sobre nosotros</Link>
+
                         <span className='text'>¡Vamos!, Registrate para escoger la gran variedad de productos que tenemos para tí.</span>
                         <label className='text'>Nombre:</label>
                         <input className='input-form' placeholder='Correo electrónico' type='text' />

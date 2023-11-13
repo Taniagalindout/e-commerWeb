@@ -3,6 +3,7 @@ import '../../assets/css/login.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../assets/images/logo.png'
+import { useEffect } from 'react';
 
 
 
@@ -16,6 +17,11 @@ const Login = () => {
     const login = () => {
         console.log("Inicio sesión con Google");
     }
+
+    useEffect(() => {
+      console.log("Renderizo el login")
+    }, [])
+    
 
     return (
         <div className="page-container">
