@@ -114,8 +114,16 @@
 
 
 .displayStack {
-  display: flex; 
+  display: flex;
+  margin-left: auto;
   color: gray;
+}
+
+.displayStack p {
+  color: gray;
+  margin-left: .2rem;
+  margin-right: auto;
+  margin-top: 0;
 }
 
 .displayStack2 {
@@ -124,17 +132,13 @@
   justify-content: space-between;
 }
 
-.fav{
+.fav {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
-  
+
 }
-.displayStack p{
- color: gray;
- margin-top: 0;
- margin-left: .2rem;
-}
+
 
 @media (max-width: 500px) {
   .thumb {

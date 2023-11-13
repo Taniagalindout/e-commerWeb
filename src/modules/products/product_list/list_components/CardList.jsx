@@ -8,12 +8,12 @@ const CardList = (props) => {
     <div>
 
       <div className="card">
-       {/* <Link to={`product-view/${props.id}`}>  */}
+    
         <img className="product--image" src={props.url[0]} alt="product image" />
         <h5>{props.name}</h5>
         <p className="price">{props.price}</p>
        
-        <div className="displayStack">
+        <div className="displayStar">
           <div className="productRating">
             {[...Array(props.rating)].map((index)=>(
               <FaStar color="#FFC000" id={index+1} key={index}/>
@@ -21,7 +21,9 @@ const CardList = (props) => {
           </div>
           <div className="productSales">({props.totalSales})</div>
         </div>
-        {/* </Link>  */}
+        <Link to={`product-view/${props.id}`}>  
+        View
+       </Link>  
       </div>
      
     </div>
