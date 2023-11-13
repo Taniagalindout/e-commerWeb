@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../assets/images/logo.png'
 import { useEffect } from 'react';
-
+import { signInWithGoogle } from '../../Firebase';
 
 
 const Login = () => {
@@ -58,7 +58,7 @@ const Login = () => {
                     <button className='button-form login' onClick={login}>
                         <span className='login-button-text'>Iniciar sesión</span>
                     </button>
-                    <button className='button-form google-login' onClick={googleLogin}>
+                    <button className='button-form google-login' onClick={signInWithGoogle}>
                         {//Aqui va el icono de Google pero no lo encontré
                         }
                         <span className='login-button-text'>Iniciar sesión con Google</span>
