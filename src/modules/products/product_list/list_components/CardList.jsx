@@ -8,7 +8,7 @@ const CardList = (props) => {
     <div>
 
       <div className="card">
-      {/* <Link to={`/${props.id}`}> */}
+       {/* <Link to={`product-view/${props.id}`}>  */}
         <img className="product--image" src={props.url[0]} alt="product image" />
         <h5>{props.name}</h5>
         <p className="price">{props.price}</p>
@@ -21,8 +21,9 @@ const CardList = (props) => {
           </div>
           <div className="productSales">({props.totalSales})</div>
         </div>
-        {/* </Link> */}
+        {/* </Link>  */}
       </div>
+     
     </div>
 
 

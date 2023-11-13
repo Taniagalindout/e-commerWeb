@@ -9,6 +9,7 @@ import { productData, responsive } from "./utilities/productdata";
 export default function Product(props) {
   const product = productData.map((item) => (
     <CardList
+      id={item.id}
       name={item.name}
       url={item.imageurl}
       price={item.price}
