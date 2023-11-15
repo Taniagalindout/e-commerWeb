@@ -22,7 +22,7 @@ const CardList = (props) => {
           <div className="productSales">({props.totalSales})</div>
         </div>
         <Link to={`product-view/${props.id}`}>  
-        View
+        <span className="view"></span>
        </Link>  
       </div>
      
