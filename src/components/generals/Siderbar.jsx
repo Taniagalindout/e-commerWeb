@@ -4,7 +4,9 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { FaUserAlt, FaCartPlus } from "react-icons/fa";
+import { FaUserAlt, FaShoppingCart  } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import '../../assets/css/cart.css'
 
 function SideBar() {
   return (
@@ -32,11 +34,14 @@ function SideBar() {
                 className="me-2"
                 aria-label="Search"
               />
-            </Form>
-            <div className="ms-auto">
-              <FaCartPlus size={30} color="white" className="me-3" />
-              <FaUserAlt size={30} color="white" />
+                <div className="cart-nav">
+           <Link to={`/cart`}> <FaShoppingCart  size={25} color="white"  /></Link>
+            <span className="cart-quantity"><span>2</span></span>
+              <FaUserAlt size={25} color="white"  /> 
+             
             </div>
+            </Form>
+          
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
