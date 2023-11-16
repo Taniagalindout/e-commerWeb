@@ -3,9 +3,6 @@ import '../../../../assets/css/cart.css'
 import { Link } from "react-router-dom";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 
-
-
-
 const Cart = (props) => {
 
     const [state, setState] = useState({
@@ -48,69 +45,67 @@ const Cart = (props) => {
         ],
         index: 0,
     });
- 
-
-    return ( 
+    return (
         <div className="cart-container cart">
-        <div>
-            <div className="titles">
-                <h3 className="product-title">Producto</h3>
-                <h3 className="price-title">Precio</h3>
-                <h3 className="quantity">Cantidad</h3>
-                <h3 className="total">Total</h3>
-            </div>
-            <div className="cart-items">
-                { state.products.map((item) => (
-                    <div className="cart-item" >
-                        <div className="cart-product">
-                            <img src={item.src[state.index]}
-                            />
-                            <div>
-                                <h3>{item.title}</h3>
-                                <p>{item.mark}</p>
+            <div>
+                <div className="titles">
+                    <h3 className="product-title">Producto</h3>
+                    <h3 className="price-title">Precio</h3>
+                    <h3 className="quantity">Cantidad</h3>
+                    <h3 className="total">Total</h3>
+                </div>
+                <div className="cart-items">
+                    {state.products.map((item) => (
+                        <div className="cart-item" >
+                            <div className="cart-product">
+                                <img src={item.src[state.index]}
+                                />
+                                <div>
+                                    <h3>{item.title}</h3>
+                                    <p>{item.mark}</p>
+                                    <button >
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="cart-product-price">${item.price}</div>
+                            <div className="cart-product-quantity">
                                 <button >
-                                    Eliminar
+                                    -
                                 </button>
+                                <div className="count">{1}</div>
+                                <button >+</button>
+                            </div>
+                            <div className="cart-product-total-price">
+                                ${item.price}
                             </div>
                         </div>
-                        <div className="cart-product-price">${item.price}</div>
-                        <div className="cart-product-quantity">
-                            <button >
-                                -
-                            </button>
-                            <div className="count">{1}</div>
-                            <button >+</button>
+                    ))}
+                </div>
+                <div className="cart-summary">
+                    <button className="clear-btn" >
+                        Limpiar
+                    </button>
+                    <div className="cart-checkout">
+                        <div className="subtotal">
+                            <span>Subtotal</span>
+                            <span className="price">$48</span>
                         </div>
-                        <div className="cart-product-total-price">
-                            ${item.price}
+                        <p>Impuestos y envío al finalizar la compra</p>
+                        <button >Pagar</button>
+                        <div className="continue-shopping">
+                            <Link to="/">
+
+                                <FaArrowAltCircleLeft />
+                                <span>Continuar Comprando</span>
+                            </Link>
                         </div>
-                    </div>
-                    )) }
-            </div>
-            <div className="cart-summary">
-                <button className="clear-btn" >
-                    Limpiar 
-                </button>
-                <div className="cart-checkout">
-                    <div className="subtotal">
-                        <span>Subtotal</span>
-                        <span className="price">$48</span>
-                    </div>
-                    <p>Impuestos y envío al finalizar la compra</p>
-                    <button >Pagar</button>
-                    <div className="continue-shopping">
-                        <Link to="/">
-                          
-                            <FaArrowAltCircleLeft />
-                            <span>Continuar Comprando</span>
-                        </Link>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
-     );
+        </div>
+    );
 }
- 
+
 export default Cart;
