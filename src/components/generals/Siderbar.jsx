@@ -4,7 +4,8 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { FaUserAlt, FaCartPlus } from "react-icons/fa";
+import { FaUserAlt, FaCartPlus,FaRegHeart } from "react-icons/fa";
+
 
 function SideBar() {
   return (
@@ -52,6 +53,7 @@ function SideBar() {
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link href="#action1">Home</Nav.Link>
                   <Nav.Link href="#action2">Link</Nav.Link>
+                  <Nav.Link href="/wishlist">Favoritos <FaRegHeart /></Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
