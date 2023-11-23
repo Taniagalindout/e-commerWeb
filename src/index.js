@@ -5,6 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Registra el Service Worker aquí
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/serviceWorker.js").then((registration) => {
+      console.log("ServiceWorker registered with scope:", registration.scope);
+    }).catch((error) => {
+      console.log("ServiceWorker registration failed:", error);
+    });
+  });
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

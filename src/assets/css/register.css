@@ -1,65 +1,84 @@
 .register-container {
-    background-color: #fff;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sign-in {
+    margin-top: 10px;
 }
 
 .register-card-container-parent {
-    width: 100%;
-    height: 70%;
-    background-color: #fff;
-    margin: 20px;
-    margin-bottom: 4%;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    max-width: 1200px;
-    display: flex;
-    justify-content: end;
-    z-index: 1;
+  width: 100%;
+  height: 90%;
+  background-color: #fff;
+  margin: 20px;
+  margin-bottom: 4%;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 1200px;
+  display: flex;
+  justify-content: end;
+  z-index: 1;
 }
 
-.left-container{
-    width: 55%;
-    height: 100%;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 30px;
-    z-index: 1;
+.container-inputs-name {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.left-container {
+  width: 50%;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px;
+  z-index: 1;
 }
 
 .register-logo {
-    width: 45%;
+  width: 45%;
+}
+.register-image {
+  width: 100%;
 }
 
 .rigth-container {
-    width: 45%;
-    height: 100%;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
-    z-index: 1;
+  width: 50%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  z-index: 1;
 }
 
 .register-text {
-    margin-top: 10px;
-    font-weight: 600;
+  font-weight: 600;
+}
+.input-error {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: grey;
+  font-size: 12px;
 }
 
 .text {
-    color: #111827;
-    margin-top: 10px;
+  color: #111827;
+  margin-top: 10px;
 }
 
 .register-button {
-    width: 100% !important;
-    margin-top: 10px;
-    margin-left: 0 !important;
+  width: 100% !important;
+  margin-top: 10px;
+  margin-left: 0 !important;
 }
-
