@@ -8,6 +8,10 @@ import { FaUserAlt, FaCartPlus } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
 
 function SideBar() {
+
+
+
+
   return (
     <>
       {[false].map((expand) => (
@@ -16,7 +20,6 @@ function SideBar() {
           expand={expand}
           className="mb-3"
           sticky="top"
-
         >
           <Container fluid>
             <Navbar.Brand href="#">
@@ -54,6 +57,10 @@ function SideBar() {
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link href="#action1">Home</Nav.Link>
                   <Nav.Link href="#action2">Link</Nav.Link>
+                  <Nav.Link href="#action2">DarkMode
+                
+                    </Nav.Link>
+
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
