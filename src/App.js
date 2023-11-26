@@ -3,7 +3,9 @@ import Landing from './components/landing/Landing';
 import Login from './modules/login/Login';
 import Register from './modules/login/Register';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ListUser from './modules/admin/users/ListUsers';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
@@ -12,9 +14,10 @@ function App() {
         <Routes>
           <Route path='/' element={<Landing />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/listusers' element={<ListUser/>}/>
+          <Route path='/register' element={<Register />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </div>
   );
 }
