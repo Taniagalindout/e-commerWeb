@@ -1,0 +1,7 @@
+.bgProfile{
+    background: rgb(76, 84, 221);
+   background: linear-gradient(0deg, rgba(76, 84, 221, 1) 0%, rgba(68, 178, 237, 1) 100%);
+ }
+ .cardStyle {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+ }
