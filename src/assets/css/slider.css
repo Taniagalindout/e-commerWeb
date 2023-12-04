@@ -1,0 +1,8 @@
+.carousel .carousel-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.d-img{
+    object-fit: cover;
+}

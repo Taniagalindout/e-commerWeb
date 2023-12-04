@@ -7,7 +7,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './assets/css/globlal.css';
 import HomeSeller from './modules/seller/HomeSeller';
-
+import ListProducts from './modules/products/product_list/ListProducts';
+import DetailProduct from './modules/products/detail/DetailProduct';
+import ListWishlist from './modules/products/wishlist/ListWishlist';
+import NotFoundWishlist from './modules/products/wishlist/utilities/NotFoundWishlist';
 
 function App() {
   return (
@@ -17,6 +20,10 @@ function App() {
           <Route path='/' element={<Landing />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/product-view' element={<ListProducts />} />
+          <Route path='/product-view/:id' element={<DetailProduct />} />
+          <Route path='/wishlist' element={<ListWishlist />} />
+          <Route path='/clean-wishlist' element={<NotFoundWishlist />} />
           <Route path="/home-seller/*" element={<HomeSeller />} />
         </Routes>
       </Router>
