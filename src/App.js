@@ -11,6 +11,8 @@ import ListProducts from './modules/products/product_list/ListProducts';
 import DetailProduct from './modules/products/detail/DetailProduct';
 import ListWishlist from './modules/products/wishlist/ListWishlist';
 import NotFoundWishlist from './modules/products/wishlist/utilities/NotFoundWishlist';
+import ShoppingCart from './modules/products/shopping_cart/ShoppingCart';
+import NotFound from './modules/products/shopping_cart/utilities/NotFound';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path='/product-view/:id' element={<DetailProduct />} />
           <Route path='/wishlist' element={<ListWishlist />} />
           <Route path='/clean-wishlist' element={<NotFoundWishlist />} />
+          <Route path='/cart' element={<ShoppingCart/>} />
+          <Route path='/clean-cart' element={<NotFound/>}/>
           <Route path="/home-seller/*" element={<HomeSeller />} />
         </Routes>
       </Router>
