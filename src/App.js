@@ -5,6 +5,8 @@ import Register from './modules/login/Register';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './assets/css/globlal.css';
+import HomeSeller from './modules/seller/HomeSeller';
 
 
 function App() {
@@ -15,6 +17,7 @@ function App() {
           <Route path='/' element={<Landing />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path="/home-seller/*" element={<HomeSeller />} />
         </Routes>
       </Router>
       <ToastContainer />
