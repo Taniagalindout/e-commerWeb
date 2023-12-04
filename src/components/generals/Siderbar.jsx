@@ -1,13 +1,20 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import { FaUserAlt, FaCartPlus } from "react-icons/fa";
-import Logo from "../../assets/images/logo.png";
-
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import { FaUserAlt, FaCartPlus } from 'react-icons/fa';
+import Logo from '../../assets/images/logo.png';
 function SideBar() {
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken'); // Ejemplo de limpieza de token almacenado en localStorage
+    
+  };
+  
+
   return (
     <>
       {[false].map((expand) => (
@@ -16,7 +23,6 @@ function SideBar() {
           expand={expand}
           className="mb-3"
           sticky="top"
-
         >
           <Container fluid>
             <Navbar.Brand href="#">
@@ -34,12 +40,11 @@ function SideBar() {
                 className="me-2"
                 aria-label="Search"
               />
-                <FaCartPlus size={25} color="#4D53DD" className="me-2" />
-                <FaUserAlt size={25} color="#4D53DD" className="me-2" />
-                <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-
+              <FaCartPlus size={25} color="#4D53DD" className="me-2" />
+              <FaUserAlt size={25} color="#4D53DD" className="me-2" />
+              <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             </Form>
-
+            <Button variant="danger" onClick={handleLogout}>Logout</Button> {/* Botón de logout */}
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
               aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}

@@ -5,6 +5,8 @@ import SideBar from "../../../components/generals/Siderbar";
 import Avatar from "react-avatar";
 import Pagination from "react-bootstrap/Pagination";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import UpdateUser from "./UpdateUser";
+import "../../../assets/css/user.css";
 
 const ListUsers = () => {
   const [accessToken, setAccessToken] = useState("");
@@ -77,7 +79,7 @@ const ListUsers = () => {
           <SideBar />
 
           {currentUsers.map((user) => (
-            <Card key={user.idUser} className="mb-3">
+            <Card key={user.idUser} className="mb-3 card-user">
               <Card.Body className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
                   <Avatar
@@ -112,20 +114,8 @@ const ListUsers = () => {
                     </span>
                   </div>
                 </div>
-                {/* Botones de Eliminar y Actualizar */}
                 <div className="d-flex">
-                  <button
-                    className="btn btn-primary mr-3"
-                    // onClick={() => handleUpdateUser(user.idUser)}
-                  >
-                    <AiFillEdit className="mr-1" />
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    // onClick={() => handleDeleteUser(user.idUser)}
-                  >
-                    <AiFillDelete className="mr-1" />
-                  </button>
+                  <UpdateUser userData={user} token={accessToken} />
                 </div>
               </Card.Body>
             </Card>
