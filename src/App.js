@@ -7,7 +7,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './assets/css/globlal.css';
 import HomeSeller from './modules/seller/HomeSeller';
-
+import LostPassword from './modules/login/LostPassword';
+import ChangePassword from './modules/login/ChangePassword';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path="/home-seller/*" element={<HomeSeller />} />
+          <Route path="/lostpswd" element={<LostPassword />} />
+          <Route path="/changepswd" element={<ChangePassword />} />
         </Routes>
       </Router>
       <ToastContainer />

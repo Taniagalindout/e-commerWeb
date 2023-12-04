@@ -1,0 +1,34 @@
+.cardPass {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.input-error {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: grey;
+  font-size: 12px;
+}
+
+.button-form {
+  border-radius: 16px;
+  width: 80%;
+  height: 50px;
+  margin: 10px;
+}
+
+.login {
+  background-color: #605ad4;
+  border: 1px solid #605ad4;
+}
+.login-button-text {
+    color: #fff;
+}
+.input-form {
+    border-radius: 5px;
+    border: 1px solid #9C9CA4;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
