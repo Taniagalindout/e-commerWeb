@@ -1,23 +1,24 @@
 import {
     BrowserRouter as Router,
-    Switch,
+    Routes,
     Route,
-    Redirect
+    
   } from "react-router-dom";
-import PieChart from "./components/chart/PieChart";
+
+ 
 import Dashboard from "./components/dashboard/Dashboard";
 import SellerOptions from "./components/root/SellerOptions";
+import ListOrders from "./orders/ListOrders";
 const HomeSeller = () => {
     return ( 
         <div className="app">
             <SellerOptions/>
-            
-            <Switch>
-            <Route path="/home-seller/dashboard" component={Dashboard} /> 
-            </Switch>
-            
-         
            
+        <Routes>
+        <Route path='/' element={<Dashboard />} />
+          <Route path='/orders' element={<ListOrders />} />
+        </Routes>
+    
         </div>
      );
 }

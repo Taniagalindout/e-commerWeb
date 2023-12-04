@@ -1,6 +1,6 @@
 import '../../../../assets/css/seller.css'
 import PieChart from '../chart/PieChart';
-import { FaStar, FaUsers, FaShoppingCart, FaDonate, FaChartLine, FaBoxOpen, FaTruck, FaHome } from "react-icons/fa";
+import { FaStar, FaUsers, FaShoppingCart, FaDonate, FaChartLine } from "react-icons/fa";
 
 const Dashboard = () => {
     return (
@@ -66,7 +66,6 @@ const Dashboard = () => {
                                             <FaStar color="#FFC000" />
                                             <FaStar color="#FFC000" />
                                             <FaStar color="#FFC000" />
-
                                         </div>
                                     </div>
                                 </div>
@@ -75,67 +74,13 @@ const Dashboard = () => {
                                         <div class="status">Status : Entregado</div>
                                         <div class="btn btn-primary text-uppercase">Ver orden</div>
                                     </div>
-                                    <div class="progressbar-track">
-                                        <ul class="progressbar">
-                                            <li id="step-1" class="text-muted green">
-                                                <span > <FaBoxOpen color='white' /></span>
-                                            </li>
-                                            <li id="step-2" class="text-muted green">
-                                                <span >  <FaTruck color='white' /></span>
-                                            </li>
-                                            <li id="step-3" class="text-muted green">
-                                                <span >  <FaHome color='white' /></span>
-                                            </li>
-                                        </ul>
-                                        <div id="tracker"></div>
-                                    </div>
+                                  
                                 </div>
 
                             </div>
                         </div>
 
-                        <div class="order my-2 bg-sale-light " >
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="d-flex flex-column justify-content-between order-summary">
-                                        <div class="d-flex align-items-center">
-                                            <div class="text-uppercase">Order #fur10001</div>
-                                            <div class="blue-label ms-auto text-uppercase">paid</div>
-                                        </div>
-                                        <div class="fs-8">Products #03</div>
-                                        <div class="fs-8">22 August, 2020 | 12:05 PM</div>
-                                        <div class="rating d-flex align-items-center pt-1">
-                                            <span class="px-2">Rating:</span>
-                                            <FaStar color="#FFC000" />
-                                            <FaStar color="#FFC000" />
-                                            <FaStar color="#FFC000" />
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
-                                        <div class="status">Status : Delivered</div>
-                                        <div class="btn btn-primary text-uppercase">Ver orden</div>
-                                    </div>
-                                    <div class="progressbar-track">
-                                        <ul class="progressbar">
-                                            <li id="step-1" class="text-muted green">
-                                                <span > <FaBoxOpen color='white' /></span>
-                                            </li>
-                                            <li id="step-2" class="text-muted green">
-                                                <span >  <FaTruck color='white' /></span>
-                                            </li>
-                                            <li id="step-3" class="text-muted green">
-                                                <span >  <FaHome color='white' /></span>
-                                            </li>
-                                        </ul>
-                                        <div id="tracker"></div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                    
                     </div>
                 </div>
 

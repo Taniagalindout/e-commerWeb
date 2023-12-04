@@ -63,8 +63,33 @@
 .order {
     padding: 10px 30px;
     min-height: 120px;
-    max-width: 680px;
+    max-width: 900px;
 }
+
+.fs-8 {
+    color: gray;
+    margin: 4px 0;
+}
+.fs-8 span{
+    color: black;
+    font-weight: bold;
+}
+.text-uppercase span{
+    color: #4D53DD;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* .box p {
+    line-height: 1.5;
+    margin: 10px 0;
+    color: gray;
+  }
+  
+  .box p span {
+    color: black;
+    font-weight: bold;
+  } */
 
 .order .order-summary {
     height: 100%;
@@ -117,63 +142,13 @@
     background-color: #4D53DD;
     color: #fff;
 }
-
-.order .progressbar-track {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.order .progressbar-track .progressbar {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 0rem;
-}
-
-.order .progressbar-track .progressbar li {
-    font-size: 1.5rem;
-    border: 1px solid #333;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background-color: #dddddd;
-    z-index: 100;
-    position: relative;
-}
-
-.order .progressbar-track .progressbar li.green {
-    border: 1px solid white;
-    background-color: #4D53DD ;
-}
-
-.order .progressbar-track .progressbar li::after {
-    position: absolute;
-    font-size: 0.9rem;
-    top: 50px;
-    left: 0px;
-}
-
-#tracker {
-    position: absolute;
-    border-top: 1px solid #4D53DD;
-    width: 100%;
-    top: 25px;
-}
-
-#step-1::after {
-    content: 'Pendiente';
-    
-}
-#step-2::after {
-    content: 'Enviado';
+.order-image{
+    width: 75px;
+  max-width: 100%;
+ 
     
 }
 
-#step-3::after {
-    content: 'Entregado';
-    
-}
 
 
 
