@@ -1,10 +1,12 @@
 .register-container {
   background-color: #fff;
-  height: 100vh;
+  min-height: 100vh; /* Cambié 'height' a 'min-height' para asegurar que se ajuste al contenido */
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px; /* Añadí un poco de relleno para evitar que los elementos toquen los bordes */
 }
+
 .sign-in {
     margin-top: 10px;
 }

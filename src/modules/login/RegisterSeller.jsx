@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../assets/css/register.css";
 import logo from "../../assets/images/logo.png";
 import image from "../../assets/images/register-img.png";
+import shoppingimg from "../../assets/images/shopping.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -30,7 +31,10 @@ const RegisterSeller = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
-
+  const [validationErrors, setValidationErrors] = useState({
+    rfc: "",
+    shopType: "",
+  });
   useEffect(() => {
     validateForm();
   }, [formData]);
@@ -58,12 +62,32 @@ const RegisterSeller = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    let newValue = value;
+    let errorMessage = "";
+
+    if (name === "rfc") {
+      newValue = value.replace(/[^a-zA-Z0-9]/g, "").substring(0, 13);
+      if (value !== newValue) {
+        errorMessage = "Solo se permiten números y letras.";
+      }
+    } else if (name === "shopType") {
+      newValue = value.replace(/[^a-zA-Z]/g, "");
+      if (value !== newValue) {
+        errorMessage = "Solo se permiten letras.";
+      }
+    }
+
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: newValue,
+    });
+
+    // Actualizar mensajes de validación
+    setValidationErrors({
+      ...validationErrors,
+      [name]: errorMessage,
     });
   };
-
 
   const register = async () => {
     setFormSubmitted(true);
@@ -78,8 +102,8 @@ const RegisterSeller = () => {
 
     try {
       const userResponse = await createUser(formData);
-    console.log("userResponse: ", userResponse);
-      if (userResponse.token) {
+      console.log("UserResponse", userResponse);
+      if (userResponse.data.idUser) {
         const sellerData = {
           user: {
             idUser: userResponse.data.idUser,
@@ -89,10 +113,7 @@ const RegisterSeller = () => {
           shopType: formData.shopType,
         };
 
-        const sellerResponse = await createSeller(
-          sellerData,
-          userResponse.token
-        );
+        const sellerResponse = await createSeller(sellerData);
 
         if (
           sellerResponse.status === 201 &&
@@ -108,7 +129,7 @@ const RegisterSeller = () => {
           toast.error("Hubo un error al crear el vendedor");
         }
       } else {
-        console.log("No se obtuvo el token después del registro del usuario");
+        console.log("No se obtuvo el ID del usuario después del registro");
         toast.error("Hubo un problema al registrar el usuario");
       }
     } catch (error) {
@@ -122,7 +143,7 @@ const RegisterSeller = () => {
         <div className="register-card-container-parent">
           <div className="left-container">
             <img src={logo} className="register-logo" alt="SaleHub" />
-            <img src={image} className="register-image" alt="SaleHub" />
+            <img src={shoppingimg} className="register-image" alt="SaleHub" />
           </div>
           <div className="rigth-container">
             <h2 className="register-text">Registrate vendedor</h2>
@@ -211,7 +232,10 @@ const RegisterSeller = () => {
               name="rfc"
               value={formData.rfc}
               onChange={handleInputChange}
-            />{" "}
+            />
+            {validationErrors.rfc && (
+              <span className="error-message">{validationErrors.rfc}</span>
+            )}
             <label className="text">Tipo de venta:</label>
             <input
               className={`input-form`}
@@ -221,6 +245,9 @@ const RegisterSeller = () => {
               value={formData.shopType}
               onChange={handleInputChange}
             />
+            {validationErrors.shopType && (
+              <span className="error-message">{validationErrors.shopType}</span>
+            )}
             <label className="text">Comprobante de identidad:</label>
             <input
               className={`input-form`}
@@ -249,12 +276,6 @@ const RegisterSeller = () => {
               <span className="">¿Ya tienes una cuenta? </span>
               <Link to="/login" className="forgot-password">
                 Inicia sesion
-              </Link>
-            </div>
-            <div className="sign-in">
-              <span className="">¿Quieres vender con nosotros? </span>
-              <Link to="/registerseller" className="forgot-password">
-                Comienza ahora
               </Link>
             </div>
           </div>

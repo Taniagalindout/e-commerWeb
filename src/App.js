@@ -14,6 +14,7 @@ import ListWishlist from './modules/products/wishlist/ListWishlist';
 import NotFoundWishlist from './modules/products/wishlist/utilities/NotFoundWishlist';
 import ShoppingCart from './modules/products/shopping_cart/ShoppingCart';
 import NotFound from './modules/products/shopping_cart/utilities/NotFound';
+import RegisterSeller from './modules/login/RegisterSeller';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/home-seller/*" element={<HomeSeller />} />
           <Route path="/lostpswd" element={<LostPassword />} />
           <Route path="/changepswd" element={<ChangePassword />} />
+          <Route path="/registerseller" element={<RegisterSeller />} />
         </Routes>
       </Router>
       <ToastContainer />
