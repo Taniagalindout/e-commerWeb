@@ -15,6 +15,7 @@ import NotFoundWishlist from './modules/products/wishlist/utilities/NotFoundWish
 import ShoppingCart from './modules/products/shopping_cart/ShoppingCart';
 import NotFound from './modules/products/shopping_cart/utilities/NotFound';
 import RegisterSeller from './modules/login/RegisterSeller';
+import Profile from './modules/profile/Profile';
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
           <Route path="/lostpswd" element={<LostPassword />} />
           <Route path="/changepswd" element={<ChangePassword />} />
           <Route path="/registerseller" element={<RegisterSeller />} />
+          <Route path="/profile" element={<Profile />} />
+
         </Routes>
       </Router>
       <ToastContainer />
