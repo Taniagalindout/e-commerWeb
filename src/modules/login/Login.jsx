@@ -18,7 +18,22 @@ const Login = () => {
     password: "",
   });
 
+  const [isOnline, setIsOnline] = useState(navigator.onLine); // Estado para verificar la conexión
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
 
   useEffect(() => {
     const checkUserSession = async () => {
@@ -37,8 +52,6 @@ const Login = () => {
     validateForm();
   }, [loginData]);
 
-  
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setLoginData({
@@ -56,18 +69,17 @@ const Login = () => {
     return emptyFieldsArray.length === 0;
   };
 
-  const googleLogin = () => {
-    console.log("Inicio sesión con Google");
-  };
-
   const signin = () => {
     setFormSubmitted(true);
+    if (!isOnline) {
+      return alert("Necesitas conexión a Internet para iniciar sesión.");
+    }
     if (!validateForm()) {
       return toast.error("Completa todos los campos.");
     }
     const response = login(loginData)
       .then((response) => {
-        console.log("Inicio sesion: ", response);
+        console.log("Inicio sesión:", response);
         if (response.status === 401) {
           return toast.error("Usuario y/o contraseña incorrectos.");
         }
@@ -80,13 +92,9 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        console.log("Error: ", error);
+        console.log("Error:", error);
       });
   };
-
-  useEffect(() => {
-    console.log("Renderizo el login");
-  }, []);
 
   return (
     <div className="page-container">
