@@ -14,17 +14,20 @@ import { useNavigate } from "react-router-dom";
 const RegisterSeller = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    lastname: "",
-    phone: "",
-    email: "",
-    password: "",
-    rol: {
-      idRol: 2,
+    seller: {
+      seller: {
+        rol: { idRol: 2 },
+        name: '',
+        lastname: '',
+        phone: '',
+        email: '',
+        password: '',
+        status: true,
+      },
+      rfc: '',
+      shopType: '',
     },
-    rfc: "",
-    ineLink: "",
-    shopType: "",
+    ine: null,
   });
   const navigate = useNavigate();
   const [emptyFields, setEmptyFields] = useState([]);
@@ -88,6 +91,13 @@ const RegisterSeller = () => {
       [name]: errorMessage,
     });
   };
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setFormData({
+      ...formData,
+      ine: file,
+    });
+  };
 
   const register = async () => {
     setFormSubmitted(true);
@@ -101,7 +111,7 @@ const RegisterSeller = () => {
     }
 
     try {
-      const userResponse = await createUser(formData);
+      const userResponse = await createUser(formData.seller.seller);
       console.log("UserResponse", userResponse);
       if (userResponse.data.idUser) {
         const sellerData = {
@@ -109,12 +119,15 @@ const RegisterSeller = () => {
             idUser: userResponse.data.idUser,
           },
           rfc: formData.rfc,
-          ineLink: formData.ineLink,
+          ine: formData.ine || 'Valor predeterminado si está vacío',
           shopType: formData.shopType,
         };
 
-        const sellerResponse = await createSeller(sellerData);
+        const formDataToUpload = new FormData();
+        formDataToUpload.append('seller', JSON.stringify(sellerData));
+        formDataToUpload.append('ine', formData.ine);
 
+        const sellerResponse = await createSeller(formDataToUpload);
         if (
           sellerResponse.status === 201 &&
           sellerResponse.message === "success"
@@ -162,7 +175,7 @@ const RegisterSeller = () => {
                   placeholder="Nombre"
                   type="text"
                   name="name"
-                  value={formData.name}
+                  value={formData.seller.seller}
                   onChange={handleInputChange}
                 />
               </div>
@@ -177,7 +190,7 @@ const RegisterSeller = () => {
                   placeholder="Apellido(s)"
                   type="text"
                   name="lastname"
-                  value={formData.lastname}
+                  value={formData.seller.seller}
                   onChange={handleInputChange}
                 />
               </div>
@@ -192,7 +205,7 @@ const RegisterSeller = () => {
               placeholder="Correo electronico"
               type="text"
               name="email"
-              value={formData.email}
+              value={formData.seller.seller}
               onChange={handleInputChange}
             />
             <label className="text">Contraseña:</label>
@@ -207,7 +220,7 @@ const RegisterSeller = () => {
                 placeholder="Contraseña"
                 type={showPassword ? "text" : "password"}
                 name="password"
-                value={formData.password}
+                value={formData.seller.seller}
                 onChange={handleInputChange}
               />
               <button
@@ -230,7 +243,7 @@ const RegisterSeller = () => {
               placeholder="RFC"
               type="text"
               name="rfc"
-              value={formData.rfc}
+              value={formData.seller.seller}
               onChange={handleInputChange}
             />
             {validationErrors.rfc && (
@@ -242,7 +255,7 @@ const RegisterSeller = () => {
               placeholder="Tipo de venta"
               type="text"
               name="shopType"
-              value={formData.shopType}
+              value={formData.seller.seller}
               onChange={handleInputChange}
             />
             {validationErrors.shopType && (
@@ -252,7 +265,8 @@ const RegisterSeller = () => {
             <input
               className={`input-form`}
               type="file"
-              name="image"
+              name="ine"
+              value={formData.ine}
               onChange={handleInputChange}
             />
             {formSubmitted && !validPassword && (
