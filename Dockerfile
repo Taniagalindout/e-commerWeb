@@ -13,9 +13,6 @@ RUN npm install
 # Copia los archivos del proyecto al contenedor
 COPY . .
 
-# Construye la aplicación React
-RUN npm run build
-
 # Expone el puerto en el que se ejecutará la aplicación
 EXPOSE 3000
 
