@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/register.css";
 import logo from "../../assets/images/logo.png";
-import image from "../../assets/images/register-img.png";
 import shoppingimg from "../../assets/images/shopping.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { createUser } from "../../service/user/UserService";
 import { createSeller } from "../../service/user/UserSeller";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -38,12 +36,13 @@ const RegisterSeller = () => {
     rfc: "",
     shopType: "",
   });
+
   useEffect(() => {
     validateForm();
   }, [formData]);
 
   const validateForm = () => {
-    const { name, lastname, email, password } = formData;
+    const { name, lastname, email, password } = formData.seller.seller;
     const emptyFieldsArray = [];
     if (name === "") emptyFieldsArray.push("name");
     if (lastname === "") emptyFieldsArray.push("lastname");
@@ -64,7 +63,7 @@ const RegisterSeller = () => {
   };
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
     let newValue = value;
     let errorMessage = "";
 
@@ -80,9 +79,19 @@ const RegisterSeller = () => {
       }
     }
 
-    setFormData({
-      ...formData,
-      [name]: newValue,
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        seller: {
+          seller: {
+            ...prevData.seller.seller,
+            [name]: value,
+          },
+          rfc: name === "rfc" ? newValue : prevData.seller.rfc,
+          shopType: name === "shopType" ? newValue : prevData.seller.shopType,
+        },
+        ine: name === "ine" ? files[0] : prevData.ine,
+      };
     });
 
     // Actualizar mensajes de validación
@@ -91,11 +100,12 @@ const RegisterSeller = () => {
       [name]: errorMessage,
     });
   };
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setFormData({
       ...formData,
-      ine: file,
+      ine: file.name,
     });
   };
 
@@ -105,46 +115,30 @@ const RegisterSeller = () => {
 
     if (!validateForm()) {
       toast.error("Completa todos los campos.");
-      if (!/^\S+@\S+\.\S+$/.test(formData.email))
+      if (!/^\S+@\S+\.\S+$/.test(formData.seller.seller.email))
         return toast.error("Ingresa un email valido.");
       return;
     }
 
     try {
-      const userResponse = await createUser(formData.seller.seller);
-      console.log("UserResponse", userResponse);
-      if (userResponse.data.idUser) {
-        const sellerData = {
-          user: {
-            idUser: userResponse.data.idUser,
-          },
-          rfc: formData.rfc,
-          ine: formData.ine || 'Valor predeterminado si está vacío',
-          shopType: formData.shopType,
-        };
+      const formDataToUpload = new FormData();
+      formDataToUpload.append('seller', new Blob([JSON.stringify(formData.seller)], { type: "application/json" }));
+      formDataToUpload.append('ine', formData.ine);
 
-        const formDataToUpload = new FormData();
-        formDataToUpload.append('seller', JSON.stringify(sellerData));
-        formDataToUpload.append('ine', formData.ine);
-
-        const sellerResponse = await createSeller(formDataToUpload);
-        if (
-          sellerResponse.status === 201 &&
-          sellerResponse.message === "success"
-        ) {
-          console.log("El vendedor se ha creado correctamente");
-          navigate("/login");
-          toast.success(
-            "¡Usuario y vendedor creados correctamente! Ahora puedes iniciar sesión"
-          );
-        } else {
-          console.log("Hubo un error al crear el vendedor");
-          toast.error("Hubo un error al crear el vendedor");
-        }
+      const sellerResponse = await createSeller(formDataToUpload);
+      if (
+        sellerResponse.status === 201 
+      ) {
+        console.log("El vendedor se ha creado correctamente");
+        navigate("/login");
+        toast.success(
+          "¡Usuario y vendedor creados correctamente! Ahora puedes iniciar sesión"
+        );
       } else {
-        console.log("No se obtuvo el ID del usuario después del registro");
-        toast.error("Hubo un problema al registrar el usuario");
+        console.log("Hubo un error al crear el vendedor");
+        toast.error("Hubo un error al crear el vendedor");
       }
+
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -167,60 +161,56 @@ const RegisterSeller = () => {
               <div className="container-column">
                 <label className="text">Nombre:</label>
                 <input
-                  className={`input-form ${
-                    formSubmitted && emptyFields.includes("name")
+                  className={`input-form ${formSubmitted && emptyFields.includes("name")
                       ? "input-error"
                       : ""
-                  }`}
+                    }`}
                   placeholder="Nombre"
                   type="text"
                   name="name"
-                  value={formData.seller.seller}
+                  value={formData.seller.seller.name}
                   onChange={handleInputChange}
                 />
               </div>
               <div className="container-column">
                 <label className="text">Apellido(s):</label>
                 <input
-                  className={`input-form ${
-                    formSubmitted && emptyFields.includes("lastname")
+                  className={`input-form ${formSubmitted && emptyFields.includes("lastname")
                       ? "input-error"
                       : ""
-                  }`}
+                    }`}
                   placeholder="Apellido(s)"
                   type="text"
                   name="lastname"
-                  value={formData.seller.seller}
+                  value={formData.seller.seller.lastname}
                   onChange={handleInputChange}
                 />
               </div>
             </div>
             <label className="text">Correo electronico:</label>
             <input
-              className={`input-form ${
-                formSubmitted && (emptyFields.includes("email") || !validEmail)
+              className={`input-form ${formSubmitted && (emptyFields.includes("email") || !validEmail)
                   ? "input-error"
                   : ""
-              }`}
+                }`}
               placeholder="Correo electronico"
               type="text"
               name="email"
-              value={formData.seller.seller}
+              value={formData.seller.seller.email}
               onChange={handleInputChange}
             />
             <label className="text">Contraseña:</label>
             <div className="password-input-container">
               <input
-                className={`input-form ${
-                  formSubmitted &&
-                  (emptyFields.includes("password") || !validPassword)
+                className={`input-form ${formSubmitted &&
+                    (emptyFields.includes("password") || !validPassword)
                     ? "input-error"
                     : ""
-                }`}
+                  }`}
                 placeholder="Contraseña"
                 type={showPassword ? "text" : "password"}
                 name="password"
-                value={formData.seller.seller}
+                value={formData.seller.seller.password}
                 onChange={handleInputChange}
               />
               <button
@@ -235,15 +225,14 @@ const RegisterSeller = () => {
             </div>
             <label className="text">RFC:</label>
             <input
-              className={`input-form ${
-                formSubmitted && emptyFields.includes("rfc")
+              className={`input-form ${formSubmitted && emptyFields.includes("rfc")
                   ? "input-error"
                   : ""
-              }`}
+                }`}
               placeholder="RFC"
               type="text"
               name="rfc"
-              value={formData.seller.seller}
+              value={formData.seller.rfc}
               onChange={handleInputChange}
             />
             {validationErrors.rfc && (
@@ -255,7 +244,7 @@ const RegisterSeller = () => {
               placeholder="Tipo de venta"
               type="text"
               name="shopType"
-              value={formData.seller.seller}
+              value={formData.seller.shopType}
               onChange={handleInputChange}
             />
             {validationErrors.shopType && (
@@ -265,9 +254,11 @@ const RegisterSeller = () => {
             <input
               className={`input-form`}
               type="file"
+              id="ine"
               name="ine"
-              value={formData.ine}
+              accept=".jpg, .jpeg, .png"
               onChange={handleInputChange}
+              required
             />
             {formSubmitted && !validPassword && (
               <div className="container-error-password">
@@ -298,4 +289,5 @@ const RegisterSeller = () => {
     </div>
   );
 };
+
 export default RegisterSeller;
