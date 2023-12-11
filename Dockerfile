@@ -4,11 +4,14 @@ FROM node:14-alpine
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos del proyecto al contenedor
-COPY . .
+# Copia el package.json y package-lock.json para instalar las dependencias
+COPY package*.json ./
 
 # Instala las dependencias
 RUN npm install
+
+# Copia los archivos del proyecto al contenedor
+COPY . .
 
 # Construye la aplicación React
 RUN npm run build
