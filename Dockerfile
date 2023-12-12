@@ -8,13 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala las dependencias
-RUN npm install
+RUN npm install -g serve
 
 # Copia los archivos del proyecto al contenedor
 COPY . .
 
 # Construye la aplicación
-RUN npm run build
+RUN serve -s build
 
 # Expone el puerto en el que se ejecutará la aplicación
 EXPOSE 3000
