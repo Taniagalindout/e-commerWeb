@@ -1,88 +1,170 @@
-import React, { useState, useEffect, useRef } from 'react';
-import '../../../../assets/css/detail.css'
-import { FaStar } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import '../../../../assets/css/detail.css';
+import { FaStar, FaRegHeart } from 'react-icons/fa';
 import DetailsTouch from '../utilities/DetailsTouch';
+import defaultImage from '../../../../assets/images/view.png';
+import { useParams } from 'react-router-dom';
 
-const Detail = () => {
+const Detail = (props) => {
+  const [productDetails, setProductDetails] = useState(null);
+  const [isHeartClicked, setIsHeartClicked] = useState(false);
+  const { id } = useParams();
+  const tokenCacheKey = "/userData"; // Cambiar esto si el nombre real es diferente
 
-    const [state, setState] = useState({
-        products: [
-            {
-                "_id": "1",
-                "title": "Camisa Chida",
-                "src": [
-                    "https://img.ltwebstatic.com/images3_pi/2022/11/08/16679024983a63fa02d2ba32a3026e3d3d35d5f709_thumbnail_720x.webp",
-                    "https://img.ltwebstatic.com/images3_pi/2022/11/08/16679025019f3b645b07f447dcf51ebdfb299842e5_thumbnail_720x.webp",
-                    "https://img.ltwebstatic.com/images3_pi/2022/11/08/16679025034151046f1528200fbcabe105c7a720c8_thumbnail_720x.webp",
-                ],
-                "description": "El iPhone 14 viene con el sistema de dos cámaras más impresionante en un iPhone, para que tomes fotos espectaculares con mucha o poca luz. Y te da más tranquilidad gracias a una funcionalidad de seguridad que salva vidas.",
-                "mark": "Manfinity EMRG",
-                "price": 23,
-                "color": "Blanco",
-                "stock": 2,
-                "category": "ROPA",
-                "rating": 4.1,
-                "totalSales": 200,
-            }
+  const getTokenFromCache = async () => {
+    try {
+      const cache = await caches.open("salehub-cache-v1");
+      const userDataResponse = await cache.match(tokenCacheKey);
 
-        ],
-        index: 0,
-    });
+      if (userDataResponse) {
+        const userData = await userDataResponse.json();
+        return userData.accessToken;
+      } else {
+        console.log(`No se encontró '${tokenCacheKey}' en caché`);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error al obtener el token de acceso:", error);
+      return null;
+    }
+  };
 
-    const handleTab = (index) => {
-        setState((prevState) => ({
-            ...prevState,
-            index: index,
-        })
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const token = await getTokenFromCache();
 
-        );
-        const newImages = myRef.current.children;
-        for (let i = 0; i < newImages.length; i++) {
-            newImages[i].className = newImages[i].className.replace("active", "");
+        if (!token) {
+          console.error("No se encontró el token en caché");
+          return;
         }
-        newImages[index].className = "active";
+
+        const response = await fetch(`http://localhost:8080/api/products/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const { data } = await response.json();
+          console.log('Data del producto:', data); // Imprime la data en consola
+          setProductDetails(data);
+        } else {
+          console.error('Error al obtener los detalles del producto:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error al obtener los detalles del producto:', error);
+      }
     };
 
-    const myRef = useRef();
-    return (
-        <div className="appdetail">
-            {
-                state.products.map((item) => (
-                    <div className="details" key={item._id}>
-                        <div className="big-img">
-                            <img src={item.src[state.index]} />
-                        </div>
-                        <div className='box'>
-                            <div className='row'>
-                                <h2 className='fav'>{item.title}<FaRegHeart color='red' /></h2>
-                                <span>{item.category}</span>
-                                <div>${item.price}</div>
-                            </div>
-                            <div className="displayStack">
-                                <div>
-                                    Calificación: {item.rating} <FaStar color="#FFC000" />
-                                </div>
-                                <p>({item.totalSales})</p>
-                            </div>
-                            <div className='titledetails'>Detalles del producto</div>
-                            <div className='line'></div>
-                            <div className="displayStack2">
-                                <p>Marca: <span>{item.mark}</span></p>
-                                <p>Color: <span >{item.color}</span></p>
-                            </div>
-                            <div className='titledetails'>Stock {item.stock > 0 ? 'Disponible' : 'No disponible'}</div>
-                            <div><p>Cantidad: 1 unidad <span>({item.stock} disponibles)</span> </p></div>
-                            <div >Características: {item.description}</div>
-                            <DetailsTouch images={item.src} tab={handleTab} myRef={myRef} />
-                            <button className="cart btn btn-outline-primary  m-1" disabled={item.stock <= 0}>Agregar al Carrito</button>
-                            <button className="cart btn btn-outline-primary  m-1 " disabled={item.stock <= 0}>Comprar Ahora</button>
-                        </div>
-                    </div>
-                ))
-            }
+    fetchProductDetails();
+  }, [id]);
+
+  const handleHeartClick = async () => {
+    if (!isHeartClicked) {
+      try {
+        const token = await getTokenFromCache();
+
+        if (!token) {
+          console.error("No se encontró el token en caché");
+          return;
+        }
+
+        const cache = await caches.open("salehub-cache-v1");
+        const userDataResponse = await cache.match("/userData");
+
+        if (!userDataResponse) {
+          console.error("No se encontraron datos de usuario en la caché.");
+          return;
+        }
+
+        const userData = await userDataResponse.json();
+        const userId = userData && userData.user ? userData.user.idUser : null;
+
+        console.log("Datos del usuario:", userData);
+        console.log("UserId de la sesión:", userId);
+
+        if (!userId) {
+          console.error("UserId no encontrado en los datos del usuario.");
+          return;
+        }
+
+        const response = await fetch('http://localhost:8080/api/wishlists', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            user: {
+              idUser: userId,
+            },
+            product: {
+              idProduct: id,
+            },
+          }),
+        });
+
+        if (response.ok) {
+          setIsHeartClicked(true);
+        } else {
+          console.error('Error al agregar a favoritos:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+      }
+    }
+  };
+
+  if (!productDetails) {
+    return <p>Cargando...</p>;
+  }
+
+  const imageUrl =
+    Array.isArray(productDetails.imageLinks) && productDetails.imageLinks.length > 0
+      ? productDetails.imageLinks[0]
+      : defaultImage;
+
+  return (
+    <div className="appdetail">
+      {productDetails && (
+        <div className="details" key={productDetails._id}>
+          <div className="big-img">
+            <img src={imageUrl} alt="Product" />
+          </div>
+          <div className="box">
+            <div className="row">
+              <h2 className="fav" >
+                {productDetails.name}
+                <FaRegHeart onClick={handleHeartClick} color={isHeartClicked ? 'red' : 'gray'} />
+              </h2>
+              <span>{productDetails.category.name}</span>
+              <div>${productDetails.price}</div>
+            </div>
+            <div className="displayStack">
+              <div>
+                Calificación: {productDetails.seller.rating} <FaStar color="#FFC000" />
+              </div>
+              <p>({productDetails.quantitySold})</p>
+            </div>
+            <div className='titledetails'>Detalles del producto</div>
+            <div className='line'></div>
+            <div className="displayStack2">
+              <p>Tags: <span>{productDetails.tags}</span></p>
+              <p>Color: <span >Rojo</span></p>
+            </div>
+            <div className='titledetails'>Stock {productDetails.quantityAvailable > 0 ? 'Disponible' : 'No disponible'}</div>
+            <div><p>Cantidad: 1 unidad <span>({productDetails.quantityAvailable} disponibles)</span> </p></div>
+            <div >Características: {productDetails.description}</div>
+            {/* <DetailsTouch images={productDetails.src} tab={handleTab} myRef={myRef} /> */}
+            <button className="cart btn btn-outline-primary  m-1" disabled={productDetails.quantityAvailable <= 0}>Agregar al Carrito</button>
+            <button className="cart btn btn-outline-primary  m-1 " disabled={productDetails.quantityAvailable <= 0}>Comprar Ahora</button>
+          </div>
         </div>
-    );
-}
+      )}
+    </div>
+  );
+};
 
 export default Detail;

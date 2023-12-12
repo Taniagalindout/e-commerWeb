@@ -1,17 +1,16 @@
 import React from 'react';
-import SideBar from "../../../../components/generals/Siderbar";
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import Clean from '../../../../assets/images/wishlist.png'
+import Clean from '../../../../assets/images/wishlist.png';
+
 const NotFoundWishlist = () => {
-    return (
-        <>
-<SideBar/>
-        <Container fluid className="mt-100 d-flex justify-content-center align-items-center">
+  return (
+    <>
+      <Container fluid className="mt-100 d-flex justify-content-center align-items-center">
         <Row>
           <Col md={12}>
             <Card style={{
-                maxWidth: 1200,          
-            }}>         
+              maxWidth: 1200,
+            }}>
               <Card.Body className="cart">
                 <Col sm={12} className="empty-cart-cls text-center">
                   <img
@@ -24,7 +23,7 @@ const NotFoundWishlist = () => {
                   </h3>
                   <h4>Añade algo que te haga feliz :D</h4>
                   <Button
-                   
+                    href="/product-view"  // Atributo href para la redirección
                     className="cart-btn-transform m-3"
                     style={{ backgroundColor: '#4D53DD', borderColor: '#4D53DD' }}
                   >
@@ -36,8 +35,8 @@ const NotFoundWishlist = () => {
           </Col>
         </Row>
       </Container>
-        </>
-    );
+    </>
+  );
 }
 
 export default NotFoundWishlist;

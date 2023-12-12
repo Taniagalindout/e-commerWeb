@@ -6,6 +6,8 @@ import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaUserAlt, FaCartPlus } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
+import { Link } from 'react-router-dom';
+
 
 function SideBar() {
   return (
@@ -34,9 +36,11 @@ function SideBar() {
                 className="me-2"
                 aria-label="Search"
               />
+              <Link to="/cart">
                 <FaCartPlus size={25} color="#4D53DD" className="me-2" />
-                <FaUserAlt size={25} color="#4D53DD" className="me-2" />
-                <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+              </Link>
+              <FaUserAlt size={25} color="#4D53DD" className="me-2" />
+              <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
 
             </Form>
 
@@ -53,7 +57,7 @@ function SideBar() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link href="#action1">Home</Nav.Link>
-                  <Nav.Link href="#action2">Link</Nav.Link>
+                  <Nav.Link href="/wishlist">Mis Favoritos</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
