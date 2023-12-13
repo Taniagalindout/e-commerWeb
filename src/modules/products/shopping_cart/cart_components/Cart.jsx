@@ -4,12 +4,36 @@ import { FaArrowAltCircleLeft, FaTrash, FaCreditCard } from 'react-icons/fa';
 import defaultImage from '../../../../assets/images/view.png';
 import '../../../../assets/css/cart.css';
 import NotFound from '../utilities/NotFound';
+import { useNavigate } from "react-router-dom";
+import { FiWifi } from "react-icons/fi";
 
 const Cart = (props) => {
   const [orderItems, setOrderItems] = useState([]);
   const [loadingOrderItems, setLoadingOrderItems] = useState(true);
   const [errorOrderItems, setErrorOrderItems] = useState(null);
   const [subtotal, setSubtotal] = useState(0);
+
+ // Estado para la alerta de conexión
+ const [showConnectionAlert, setShowConnectionAlert] = useState(false);
+ const [isOnline, setIsOnline] = useState(navigator.onLine);
+ const navigate = useNavigate();
+ //
+
+  //Offline
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
+  //Offline
 
   useEffect(() => {
     const fetchOrderItems = async () => {
@@ -72,6 +96,16 @@ const Cart = (props) => {
     fetchOrderItems();
   }, []);
 
+      // Offline
+      useEffect(() => {
+        if (!isOnline) {
+          setShowConnectionAlert(true);
+        } else {
+          setShowConnectionAlert(false);
+        }
+      }, [isOnline]);
+      // Offline
+
   useEffect(() => {
     const calculatedSubtotal = orderItems.reduce((total, item) => {
       const product = item.product || {};
@@ -83,6 +117,12 @@ const Cart = (props) => {
 
   return (
     <div className="cart-container2 cart">
+        {showConnectionAlert && (
+        <div className="alert alert-warning" role="alert">
+          Cuidado ! Necesitas conexión a internet
+          <FiWifi />
+        </div>
+      )}
       <div>
         {orderItems.length === 0 ? (
           <NotFound />

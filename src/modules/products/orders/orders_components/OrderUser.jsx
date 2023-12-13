@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import defaultImage from '../../../../assets/images/order.png'
 const OrdersUser = () => {
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
@@ -85,23 +85,28 @@ const OrdersUser = () => {
                     <div className="row">
                       {/* Aquí debes ajustar la representación de la orden según tus necesidades */}
                       <div className="col-lg-2">
-                        <img src={order.product.imageLinks[0]} className="order-image" alt={`Order ${order.idOrderItemProduct}`} />
+                        {/* Validar si hay imágenes disponibles */}
+                        {order.product.imageLinks.length > 0 ? (
+                          <img src={order.product.imageLinks[0].url} className="order-image" alt={`Order ${order.idOrderItemProduct}`} />
+                        ) : (
+                          <img src={defaultImage} className="order-image" alt={`Order ${order.idOrderItemProduct}`} />
+                        )}
                       </div>
                       <div className="col-lg-4">
                         <div className="d-flex flex-column order-summary">
                           <div className="text-uppercase">ID de la Orden: {order.idOrderItemProduct}</div>
                           <div className="fs-8">Producto: <span>{order.product.name}</span></div>
-                          <div className="fs-8">{order.date}</div>
+                          <div className="fs-8">14/09/2023</div>
                         </div>
                       </div>
                       <div className="col-lg-4">
                         <div className="d-sm-flex align-items-sm-start justify-content-sm-between">
                           <div className="d-flex flex-column">
-                            <div className="fs-8">Repartidor: <span>{order.delivery}</span></div>
+                            <div className="fs-8">Repartidor: <span>{order.product.seller.user.name}</span></div>
                             <div className="fs-8">Cantidad: <span>{order.amount}</span></div>
                             <div className="text-uppercase">Total: <span>${order.amount * order.product.price}</span></div>
                           </div>
-                          <div className="green-label ms-auto text-uppercase">Entregado</div>
+                          <div className="green-label ms-auto text-uppercase">Pagado</div>
                         </div>
                       </div>
                     </div>

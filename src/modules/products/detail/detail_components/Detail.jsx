@@ -3,7 +3,8 @@ import '../../../../assets/css/detail.css';
 import { FaStar, FaRegHeart,FaShoppingCart } from 'react-icons/fa';
 import DetailsTouch from '../utilities/DetailsTouch';
 import defaultImage from '../../../../assets/images/view.png';
-
+import { useNavigate } from "react-router-dom";
+import { FiWifi } from "react-icons/fi";
 
 import { useParams } from 'react-router-dom';
 
@@ -12,6 +13,29 @@ const Detail = (props) => {
   const [isHeartClicked, setIsHeartClicked] = useState(false);
   const { id } = useParams();
   const tokenCacheKey = "/userData";
+
+    // Estado para la alerta de conexión
+    const [showConnectionAlert, setShowConnectionAlert] = useState(false);
+    const [isOnline, setIsOnline] = useState(navigator.onLine);
+    const navigate = useNavigate();
+    //
+
+
+      //Offline
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
+  //Offline
 
   const getTokenFromCache = async () => {
     try {
@@ -62,6 +86,16 @@ const Detail = (props) => {
 
     fetchProductDetails();
   }, [id]);
+
+    // Offline
+    useEffect(() => {
+      if (!isOnline) {
+        setShowConnectionAlert(true);
+      } else {
+        setShowConnectionAlert(false);
+      }
+    }, [isOnline]);
+    // Offline
 
   const handleHeartClick = async () => {
     if (!isHeartClicked) {
@@ -154,7 +188,7 @@ const Detail = (props) => {
             product: {
               idProduct: id,
             },
-            amount: 2,
+            amount: 1,
           },
         ],
       };
@@ -180,6 +214,12 @@ const Detail = (props) => {
 
   return (
     <div className="appdetail">
+       {showConnectionAlert && (
+        <div className="alert alert-warning" role="alert">
+          Cuidado ! Necesitas conexión a internet
+          <FiWifi />
+        </div>
+      )}
       {productDetails && (
         <div className="details" key={productDetails._id}>
           <div className="big-img">

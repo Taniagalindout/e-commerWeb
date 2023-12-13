@@ -3,11 +3,35 @@ import '../../../../assets/css/wishlist.css';
 import { FaStar, FaHeart } from 'react-icons/fa';
 import defaultImage from '../../../../assets/images/view.png';
 import NotFoundWishlist from '../utilities/NotFoundWishlist';
+import { useNavigate } from "react-router-dom";
+import { FiWifi } from "react-icons/fi";
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+   // Estado para la alerta de conexión
+   const [showConnectionAlert, setShowConnectionAlert] = useState(false);
+   const [isOnline, setIsOnline] = useState(navigator.onLine);
+   const navigate = useNavigate();
+   //
+
+     //Offline
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
+  //Offline
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,6 +96,16 @@ const Wishlist = () => {
     fetchData();
   }, []);
 
+      // Offline
+      useEffect(() => {
+        if (!isOnline) {
+          setShowConnectionAlert(true);
+        } else {
+          setShowConnectionAlert(false);
+        }
+      }, [isOnline]);
+      // Offline
+
   if (loading) {
     return <p>Cargando...</p>;
   }
@@ -82,6 +116,12 @@ const Wishlist = () => {
 
   return (
     <div className="cart-container">
+        {showConnectionAlert && (
+        <div className="alert alert-warning" role="alert">
+          Cuidado ! Necesitas conexión a internet
+          <FiWifi />
+        </div>
+      )}
       <div>
         <div className="titles">
           <h3 className="product-title">Favoritos</h3>

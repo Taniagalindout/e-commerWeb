@@ -23,7 +23,7 @@ function OffersLanding() {
               <Card.Title>Lo mejor en electrónica</Card.Title>
             </Card.Body>
             <Card.Footer className="d-flex flex-column">
-              <Button variant="primary" style={buttonStyle}>Ver más</Button>
+              <Button variant="primary"  href="/product-view" style={buttonStyle}>Ver más</Button>
             </Card.Footer>
           </Card>
         </Col>
@@ -34,7 +34,7 @@ function OffersLanding() {
               <Card.Title>Juguetería</Card.Title>
             </Card.Body>
             <Card.Footer className="d-flex flex-column">
-              <Button variant="primary" style={buttonStyle}>Ver más</Button>
+              <Button variant="primary" href="/product-view" style={buttonStyle}>Ver más</Button>
             </Card.Footer>
           </Card>
         </Col>
@@ -45,7 +45,7 @@ function OffersLanding() {
               <Card.Title>Ropa de temporada</Card.Title>
             </Card.Body>
             <Card.Footer className="d-flex flex-column">
-              <Button variant="primary" style={buttonStyle}>Ver más</Button>
+              <Button variant="primary"  href="/product-view" style={buttonStyle}>Ver más</Button>
             </Card.Footer>
           </Card>
         </Col>
