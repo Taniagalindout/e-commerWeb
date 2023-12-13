@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 import { createUser } from "../../service/user/UserService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { signInWithGoogle } from "../../Firebase"; 
+import { signInWithGoogle } from "../../Firebase";
 import { auth } from "../../Firebase";
+import { FiWifi } from "react-icons/fi";
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,10 +28,27 @@ const Register = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
+  const [showConnectionAlert, setShowConnectionAlert] = useState(false); // Nuevo estado para la alerta de conexión
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
+  
   useEffect(() => {
     validateForm();
   }, [formData]);
+
 
   const validateForm = () => {
     const { name, lastname, email, password } = formData;
@@ -64,6 +82,11 @@ const Register = () => {
   const register = () => {
     console.log("Entro a iniciar sesion: ", formData);
     setFormSubmitted(true);
+    if (!isOnline) {
+      // Aquí verificamos la conexión antes de realizar el registro
+      setShowConnectionAlert(true);
+      return;
+    }
     validateForm();
     if (!validateForm()) {
       toast.error("Completa todos los campos.");
@@ -77,7 +100,9 @@ const Register = () => {
         if (response.status == 201 && response.message == "success") {
           console.log("El usuario se ha creado correctamente");
           navigate("/login");
-          toast.success("¡Usuario creado correctamente! Ahora puedes iniciar sesion");
+          toast.success(
+            "¡Usuario creado correctamente! Ahora puedes iniciar sesion"
+          );
         } else {
           console.log("El usuario YA EXISTE");
           toast.error(
@@ -94,61 +119,71 @@ const Register = () => {
     try {
       // Llamas a la función de autenticación con Google
       await signInWithGoogle();
-  
+
       // Después de la autenticación exitosa, puedes realizar acciones adicionales aquí
       // Por ejemplo, puedes obtener información del usuario si es necesario
       // Esto podría incluir el envío de datos al backend
-  
+
       // Obtener información del usuario desde Firebase (solo como ejemplo, debes ajustarlo a tu lógica real)
       const user = auth.currentUser; // Aquí obtienes el usuario actualmente autenticado
-  
+
       // Verificar si el usuario existe y obtener sus datos
       if (user) {
         const { displayName, email } = user;
-        let name = '';
-        let lastName = '';
-  
+        let name = "";
+        let lastName = "";
+
         // Separar el nombre y apellido si están presentes en el nombre de visualización
-        if (displayName.includes(' ')) {
-          const nameArray = displayName.split(' ');
+        if (displayName.includes(" ")) {
+          const nameArray = displayName.split(" ");
           name = nameArray[0];
-          lastName = nameArray.slice(1).join(' ');
+          lastName = nameArray.slice(1).join(" ");
         } else {
           name = displayName;
         }
-  
+
         // Objeto con datos del usuario
         const userData = {
           name,
           lastname: lastName,
           email,
-          password: '', // No obtendrás la contraseña del usuario desde Firebase por razones de seguridad
+          password: "", // No obtendrás la contraseña del usuario desde Firebase por razones de seguridad
           rol: {
             idRol: 1,
           },
         };
-  
+
         // Aquí llamas a la función para crear el usuario en el backend y pasas los datos obtenidos
         const response = await createUser(userData);
-  
+
         // Manejar la respuesta del backend después de crear el usuario
         if (response.status === 201 && response.message === "success") {
           console.log("El usuario se ha creado correctamente");
           navigate("/login");
-          toast.success("¡Usuario creado correctamente! Ahora puedes iniciar sesión");
+          toast.success(
+            "¡Usuario creado correctamente! Ahora puedes iniciar sesión"
+          );
         } else {
           console.log("El usuario YA EXISTE");
-          toast.error("Parece que ya hay un usuario registrado con este correo.");
+          toast.error(
+            "Parece que ya hay un usuario registrado con este correo."
+          );
         }
       }
     } catch (error) {
       console.error("Error en inicio de sesión con Google:", error);
     }
   };
-  
 
   return (
     <div className="page-container">
+      {/* Alerta de conexión */}
+      {showConnectionAlert && !isOnline && (
+        <div className="alert alert-warning" role="alert">
+          Cuidado ! Necesitas conexión a internet
+          <FiWifi />
+        </div>
+      )}
       <div className="register-container">
         <div className="register-card-container-parent">
           <div className="left-container">
@@ -248,7 +283,10 @@ const Register = () => {
             >
               <span className="login-button-text">Registrate</span>
             </button>
-            <button className="button-form google-login register-button" onClick={handleGoogleSignIn}>
+            <button
+              className="button-form google-login register-button"
+              onClick={handleGoogleSignIn}
+            >
               {
                 //Aqui va el icono de Google pero no lo encontré
               }

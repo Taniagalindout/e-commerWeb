@@ -8,19 +8,24 @@ import { Link } from "react-router-dom";
 import { login } from "../../service/auth/AuthService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { FiWifi } from "react-icons/fi";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [emptyFields, setEmptyFields] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
+   // Offline
+  // Estado para la alerta de conexión
+  const navigate = useNavigate();
+  const [showConnectionAlert, setShowConnectionAlert] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine); 
+ // Offline
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
 
-  const [isOnline, setIsOnline] = useState(navigator.onLine); // Estado para verificar la conexión
-  const navigate = useNavigate();
-
+  // Offline
   useEffect(() => {
     const handleOnlineStatus = () => {
       setIsOnline(navigator.onLine);
@@ -34,6 +39,7 @@ const Login = () => {
       window.removeEventListener("offline", handleOnlineStatus);
     };
   }, []);
+   // Offline
 
   useEffect(() => {
     const checkUserSession = async () => {
@@ -72,7 +78,9 @@ const Login = () => {
   const signin = () => {
     setFormSubmitted(true);
     if (!isOnline) {
-      return alert("Necesitas conexión a Internet para iniciar sesión.");
+      setShowConnectionAlert(true);
+      console.log("No hay conexiónssssss");
+      return;
     }
     if (!validateForm()) {
       return toast.error("Completa todos los campos.");
@@ -98,7 +106,14 @@ const Login = () => {
 
   return (
     <div className="page-container">
+            {showConnectionAlert && !isOnline && (
+          <div className="alert alert-warning" role="alert">
+            Cuidado ! Necesitas conexión a internet
+            <FiWifi />
+          </div>
+        )}
       <div className="login-container">
+  
         <div className="login-card-container">
           <div className="head-login-container">
             <img src={logo} className="login-logo" alt="SaleHub" />

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { AiFillEdit, AiOutlineCheck } from "react-icons/ai";
-import { updateUser } from "../../service/admin-user/EditUser";
+import { updateUser } from "../../../service/admin-user/EditUser";
+import "../../../assets/css/user.css";
 import { toast } from "react-toastify";
-import "../../assets/css/register.css";
-const EditProfile = ({ userData, token, updateUserData }) => {
+import "../../../assets/css/register.css";
+
+const UpdateUser = ({ userData, token, updateUserInList }) => {
   const [show, setShow] = useState(false);
   const [emptyFields, setEmptyFields] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -29,14 +31,10 @@ const EditProfile = ({ userData, token, updateUserData }) => {
           editedUserData
         );
         handleClose();
-        toast.success("Información actualizada correctamente");
-
-        updateUserData();
+        toast.success("Usuario actualizado correctamente");
+        updateUserInList(editedUserData);
       } catch (error) {
-        toast.error("Hubo un problema al actualizar la información");
-        console.log(editedUserData);
-        console.log(token);
-        console.log(error);
+        toast.error("Hubo un problema al actualizar el usuario");
       }
     }
   };
@@ -58,6 +56,7 @@ const EditProfile = ({ userData, token, updateUserData }) => {
       editedUserData.name.length < 2
     ) {
       emptyFieldsArray.push("name");
+      toast.error("El nombre debe tener al menos 2 caracteres");
     }
     if (
       !editedUserData ||
@@ -65,6 +64,7 @@ const EditProfile = ({ userData, token, updateUserData }) => {
       editedUserData.lastname.length < 2
     ) {
       emptyFieldsArray.push("lastname");
+      toast.error("El apellido debe tener al menos 2 caracteres");
     }
     if (
       !editedUserData ||
@@ -72,6 +72,7 @@ const EditProfile = ({ userData, token, updateUserData }) => {
       !/^\S+@\S+\.\S+$/.test(editedUserData.email)
     ) {
       emptyFieldsArray.push("email");
+      toast.error("Ingrese un correo electrónico válido");
     }
 
     setEmptyFields(emptyFieldsArray);
@@ -88,7 +89,7 @@ const EditProfile = ({ userData, token, updateUserData }) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Editar información personal</Modal.Title>
+          <Modal.Title>Editar usuario</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {editedUserData && (
@@ -178,4 +179,4 @@ const EditProfile = ({ userData, token, updateUserData }) => {
   );
 };
 
-export default EditProfile;
+export default UpdateUser;

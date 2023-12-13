@@ -9,6 +9,7 @@ import { getProfile } from "../../service/user/ProfileService";
 
 const Profile = () => {
   const [userData, setUserData] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -18,18 +19,22 @@ const Profile = () => {
         console.log("userDataResponse", userDataResponse);
         if (userDataResponse) {
           const userData = await userDataResponse.json();
+          const token = userData.accessToken;
+          setAccessToken(token);
+          console.log("Token de acceso:", token);
+
           setUserData(userData);
           console.log("userData", userData);
 
           if (userData.id && userData.token) {
             const profileData = await getProfile(userData.id, userData.token);
             console.log("Perfil del usuario:", profileData);
-            // Haz algo con profileData si es necesario
           }
         }
       } catch (error) {
         console.error("Error al obtener el perfil:", error);
       }
+      updateUserData(userData); 
     };
 
     fetchUserProfile();
@@ -40,6 +45,19 @@ const Profile = () => {
     const lastNameInitial = lastname ? lastname.trim().charAt(0) : "";
     return (firstNameInitial + lastNameInitial).toUpperCase();
   };
+
+  const updateUserData = async () => {
+    try {
+      const profileData = await getProfile(userData.id, accessToken);
+      setUserData(profileData); 
+      updateUserData(profileData); // Esta línea se agrega
+
+    } catch (error) {
+      console.error("Error al actualizar datos del usuario:", error);
+    }
+  };
+
+
   return (
     <div className="container-fluid">
       <SideBar />
@@ -49,7 +67,7 @@ const Profile = () => {
             <div className="d-flex justify-content-between align-items-center bgProfile">
               <div className="position-absolute top-0 end-0">
                 <Card.Header className="border-0">
-                  <EditProfile />
+                <EditProfile userData={userData.user} token={accessToken} updateUserData={updateUserData} />
                 </Card.Header>
               </div>
               <div className="d-flex justify-content-center w-100">
@@ -71,7 +89,6 @@ const Profile = () => {
             </div>{" "}
             <Card.Body className="mt-5">
               <div className="row">
-                {/* ... (otros campos existentes) */}
                 <div className="col-md-4 text-center">
                   <h2 className="lighter-text">
                     <FaUser /> <strong>Nombre:</strong>
@@ -112,7 +129,6 @@ const Profile = () => {
                       : "Email no disponible"}
                   </p>
                 </div>
-                {/* Agrega más campos del usuario según sea necesario */}
               </div>
             </Card.Body>
           </Card>

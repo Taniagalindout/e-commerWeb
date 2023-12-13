@@ -5,7 +5,8 @@ import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
-
+import {CacheableResponsePlugin} from 'workbox-cacheable-response';
+import {NetworkFirst} from 'workbox-strategies';
 clientsClaim();
 
 // Puedes desactivar el precaching reemplazand esta línea
@@ -46,6 +47,30 @@ registerRoute(
     ],
   })
 );
+
+// Cache login
+registerRoute(
+  ({ url }) => url.pathname.startsWith('/auth/login'),
+  new StaleWhileRevalidate({
+    cacheName: 'login-cache',
+    plugins: [
+      new ExpirationPlugin({ maxEntries: 50 }),
+    ],
+  })
+);
+
+// Cache users
+registerRoute(
+  ({ url }) => url.pathname.startsWith('/users'),
+  new NetworkFirst({
+    cacheName: 'users-cache',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [200] }), // Almacena respuestas exitosas (status 200) en caché
+    ],
+  })
+);
+
+
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();

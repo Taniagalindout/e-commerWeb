@@ -16,6 +16,7 @@ import ShoppingCart from './modules/products/shopping_cart/ShoppingCart';
 import NotFound from './modules/products/shopping_cart/utilities/NotFound';
 import RegisterSeller from './modules/login/RegisterSeller';
 import Profile from './modules/profile/Profile';
+import ListUsers from './modules/admin/users/ListUsers';
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
           <Route path="/changepswd" element={<ChangePassword />} />
           <Route path="/registerseller" element={<RegisterSeller />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/listusers" element={<ListUsers />} />
+
 
         </Routes>
       </Router>

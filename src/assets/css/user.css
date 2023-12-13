@@ -1,0 +1,12 @@
+.input-error {
+    border: 1px solid red;
+  }
+  
+  .error-message {
+    color: grey;
+    font-size: 12px;
+  }
+  
+  .card-user {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
