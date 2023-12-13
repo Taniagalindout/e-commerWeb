@@ -20,6 +20,7 @@ import ListUsers from './modules/admin/users/ListUsers';
 import DashboardGeneral from './modules/admin/dashboard-general/DashboardGeneral';
 import ListSeller from './modules/admin/sellers/ListSeller';
 import ListOrdersUser from './modules/products/orders/ListOrdersUser';
+import HomeAdmin from './modules/admin/HomeAdmin';
 function App() {
   return (
     <div className="App">

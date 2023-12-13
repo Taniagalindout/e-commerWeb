@@ -1,11 +1,14 @@
 
+import React from "react";
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { FaUserAlt, FaBell  } from "react-icons/fa";
-import Logo from '../../../assets/images/logo.png'
+import { FaUserAlt, FaCartPlus } from "react-icons/fa";
+import Logo from "../../assets/images/logo.png";
+import { Link, useNavigate } from 'react-router-dom';
 
 const SellerOptionsAdmin = () => {
     return ( 
@@ -54,8 +57,10 @@ const SellerOptionsAdmin = () => {
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
                     <Nav.Link href="/">Inicio</Nav.Link>
-                    <Nav.Link href="/wishlist">TUS LINKS</Nav.Link>
-                    <Nav.Link href="/shopping">TUS LINKS</Nav.Link>
+                    <Nav.Link href="/listusers">Usuarios</Nav.Link>
+                    <Nav.Link href="/dashgral">Dashboard</Nav.Link>
+                    <Nav.Link href="/listsellers">Solicitudes</Nav.Link>
+
                     <Nav.Link as={Link} to="/login" onClick={handleLogout}>Logout</Nav.Link>
                   </Nav>
                 </Offcanvas.Body>

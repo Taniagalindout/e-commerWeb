@@ -1,31 +1,21 @@
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    
-  } from "react-router-dom";
-
- 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import SellerOptionsAdmin from "./components/SellerOptionAdmin";
-//tus rutas
-import Dashboard from "./components/dashboard/Dashboard";
-import ListOrders from "./orders/ListOrders";
-import MyListProducts from "./my products/MyListProducts";
-const HomeAdmin = () => {
-    return ( 
-        <div className="app">
-            <SellerOptionsAdmin/>
-           
-        <Routes>
-        <Route path='/' element={<Dashboard />} />
-          <Route path='/orders' element={<ListOrders />} />
-          <Route path='/products' element={<MyListProducts />} />
+import ListUsers from "./users/ListUsers";
+import DashboardGeneral from "./dashboard-general/DashboardGeneral";
+import ListSeller from "./sellers/ListSeller";
 
-        </Routes>
-    
-        </div>
-     );
-}
- 
+const HomeAdmin = () => {
+  return (
+    <div className="app">
+      <SellerOptionsAdmin />
+      <Routes>
+        <Route path="/" element={<ListUsers />} />
+        <Route path="/dashgral" element={<DashboardGeneral />} />
+        <Route path="/listsellers" element={<ListSeller />} />
+      </Routes>
+    </div>
+  );
+};
+
 export default HomeAdmin;
