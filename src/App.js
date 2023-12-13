@@ -44,6 +44,7 @@ function App() {
           <Route path="/dashgral" element={<DashboardGeneral />} />
           <Route path="/listsellers" element={<ListSeller />} />
           <Route path='/shopping' element={<ListOrdersUser/>} />
+          <Route path="/home-admin/*" element={<HomeAdmin />} />
 
         </Routes>
       </Router>
