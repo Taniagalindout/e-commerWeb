@@ -19,7 +19,7 @@ import Profile from './modules/profile/Profile';
 import ListUsers from './modules/admin/users/ListUsers';
 import DashboardGeneral from './modules/admin/dashboard-general/DashboardGeneral';
 import ListSeller from './modules/admin/sellers/ListSeller';
-
+import ListOrdersUser from './modules/products/orders/ListOrdersUser';
 function App() {
   return (
     <div className="App">
@@ -43,7 +43,7 @@ function App() {
           <Route path="/listusers" element={<ListUsers />} />
           <Route path="/dashgral" element={<DashboardGeneral />} />
           <Route path="/listsellers" element={<ListSeller />} />
-
+          <Route path='/shopping' element={<ListOrdersUser/>} />
 
         </Routes>
       </Router>
