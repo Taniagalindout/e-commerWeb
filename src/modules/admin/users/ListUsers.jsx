@@ -4,7 +4,6 @@ import Card from "react-bootstrap/Card";
 import SideBar from "../../../components/generals/Siderbar";
 import Avatar from "react-avatar";
 import Pagination from "react-bootstrap/Pagination";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import UpdateUser from "./UpdateUser";
 import "../../../assets/css/user.css";
 import { useNavigate } from "react-router-dom";

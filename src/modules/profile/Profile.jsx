@@ -6,11 +6,37 @@ import "../../assets/css/profile.css";
 import Avatar from "react-avatar";
 import EditProfile from "./EditProfile";
 import { getProfile } from "../../service/user/ProfileService";
+import { FiWifi } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [userData, setUserData] = useState("");
   const [accessToken, setAccessToken] = useState("");
+  const [showConnectionAlert, setShowConnectionAlert] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
 
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
+
+  // Offline
+  useEffect(() => {
+    if (!isOnline) {
+      setShowConnectionAlert(true);
+    } else {
+      setShowConnectionAlert(false);
+    }
+  }, [isOnline]);
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -134,6 +160,12 @@ const Profile = () => {
           </Card>
         </div>
       </div>
+      {showConnectionAlert && (
+          <div className="alert alert-warning" role="alert">
+            Cuidado ! Necesitas conexión a internet
+            <FiWifi />
+          </div>
+        )}
     </div>
   );
 };

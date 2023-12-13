@@ -153,7 +153,7 @@ const RegisterSeller = () => {
             <img src={shoppingimg} className="register-image" alt="SaleHub" />
           </div>
           <div className="rigth-container">
-            <h2 className="register-text">Registrate vendedor</h2>
+            <h2 className="register-text">Solicitud de venta</h2>
             <span className="text">
               ¡Comienza ahora!, Vende tus productos en línea.
             </span>
@@ -275,7 +275,7 @@ const RegisterSeller = () => {
               className="button-form login register-button"
               onClick={register}
             >
-              <span className="login-button-text">Registrate</span>
+              <span className="login-button-text">Enviar solicitud</span>
             </button>
             <div className="sign-in">
               <span className="">¿Ya tienes una cuenta? </span>

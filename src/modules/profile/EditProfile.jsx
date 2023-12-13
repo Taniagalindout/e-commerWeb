@@ -5,12 +5,32 @@ import { AiFillEdit, AiOutlineCheck } from "react-icons/ai";
 import { updateUser } from "../../service/admin-user/EditUser";
 import { toast } from "react-toastify";
 import "../../assets/css/register.css";
+import { useNavigate } from "react-router-dom";
+import { FiWifi } from "react-icons/fi";
+
 const EditProfile = ({ userData, token, updateUserData }) => {
   const [show, setShow] = useState(false);
   const [emptyFields, setEmptyFields] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [editedUserData, setEditedUserData] = useState({});
 
+  // Estado para la alerta de conexión
+  const [showConnectionAlert, setShowConnectionAlert] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
   useEffect(() => {
     setEditedUserData(userData);
   }, [userData]);
@@ -20,7 +40,11 @@ const EditProfile = ({ userData, token, updateUserData }) => {
 
   const handleSaveChanges = async () => {
     const isValid = validateForm();
-
+    if (!isOnline) {
+      setShowConnectionAlert(true);
+      console.log("No hay conexiónssssss");
+      return;
+    }
     if (isValid) {
       try {
         const response = await updateUser(
@@ -89,6 +113,12 @@ const EditProfile = ({ userData, token, updateUserData }) => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Editar información personal</Modal.Title>
+          {showConnectionAlert && !isOnline && (
+          <div className="alert alert-warning" role="alert">
+            Cuidado ! Necesitas conexión a internet
+            <FiWifi />
+          </div>
+        )}
         </Modal.Header>
         <Modal.Body>
           {editedUserData && (

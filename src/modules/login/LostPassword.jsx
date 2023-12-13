@@ -5,6 +5,7 @@ import "../../assets/css/pass.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import passwordImg from "../../assets/images/password.png";
+import { Link } from "react-router-dom";
 
 const LostPassword = () => {
   const [email, setEmail] = useState("");
@@ -33,7 +34,7 @@ const LostPassword = () => {
     try {
       const data = { email };
       const response = await lostpass(data);
-    console.log(response);
+      console.log(response);
       if (response.status === 200) {
         toast.success(
           "Correo electrónico enviado para recuperación de contraseña"
@@ -60,10 +61,16 @@ const LostPassword = () => {
                 <Card.Img
                   variant="top"
                   src={passwordImg}
-                  style={{ maxWidth: "100%", height: "auto", width: "100%", marginBottom: "20px" }}
-                  />
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                    width: "100%",
+                    marginBottom: "20px",
+                  }}
+                />
                 <Card.Text className="mt-3">
-                  Ingresa tu correo electrónico que usas en SaleHub y recibe un código de verificación
+                  Ingresa tu correo electrónico que usas en SaleHub y recibe un
+                  código de verificación
                 </Card.Text>
 
                 <form onSubmit={handleSubmit}>
@@ -87,6 +94,10 @@ const LostPassword = () => {
                   <button className="button-form login" type="submit">
                     <span className="login-button-text">Enviar</span>
                   </button>
+                  <p></p>
+                  <Link to="/changepswd" className="forgot-password">
+                    Cambiar contraseña
+                  </Link>
                 </form>
               </Card.Body>
             </Card>

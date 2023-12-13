@@ -17,6 +17,8 @@ import NotFound from './modules/products/shopping_cart/utilities/NotFound';
 import RegisterSeller from './modules/login/RegisterSeller';
 import Profile from './modules/profile/Profile';
 import ListUsers from './modules/admin/users/ListUsers';
+import DashboardGeneral from './modules/admin/dashboard-general/DashboardGeneral';
+import ListSeller from './modules/admin/sellers/ListSeller';
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
           <Route path="/registerseller" element={<RegisterSeller />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/listusers" element={<ListUsers />} />
+          <Route path="/dashgral" element={<DashboardGeneral />} />
+          <Route path="/listsellers" element={<ListSeller />} />
 
 
         </Routes>

@@ -175,9 +175,9 @@ const Login = () => {
             }
             <span className="login-button-text">Iniciar sesión con Google</span>
           </button>
-          <a href="#" className="forgot-password">
-            Olvidé mi contraseña
-          </a>
+          <Link to="/lostpswd" className="forgot-password">
+                Olvide mi contraseña
+              </Link>
         </div>
       </div>
     </div>

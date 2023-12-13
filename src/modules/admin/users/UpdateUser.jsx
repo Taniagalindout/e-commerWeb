@@ -6,12 +6,31 @@ import { updateUser } from "../../../service/admin-user/EditUser";
 import "../../../assets/css/user.css";
 import { toast } from "react-toastify";
 import "../../../assets/css/register.css";
+import { FiWifi } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const UpdateUser = ({ userData, token, updateUserInList }) => {
   const [show, setShow] = useState(false);
   const [emptyFields, setEmptyFields] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [editedUserData, setEditedUserData] = useState({});
+  // Estado para la alerta de conexión
+  const [showConnectionAlert, setShowConnectionAlert] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
 
   useEffect(() => {
     setEditedUserData(userData);
@@ -22,7 +41,11 @@ const UpdateUser = ({ userData, token, updateUserInList }) => {
 
   const handleSaveChanges = async () => {
     const isValid = validateForm();
-
+    if (!isOnline) {
+      setShowConnectionAlert(true);
+      console.log("No hay conexiónssssss");
+      return;
+    }
     if (isValid) {
       try {
         const response = await updateUser(
@@ -90,6 +113,12 @@ const UpdateUser = ({ userData, token, updateUserInList }) => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Editar usuario</Modal.Title>
+          {showConnectionAlert && !isOnline && (
+            <div className="alert alert-warning" role="alert">
+              Cuidado ! Necesitas conexión a internet
+              <FiWifi />
+            </div>
+          )}
         </Modal.Header>
         <Modal.Body>
           {editedUserData && (
