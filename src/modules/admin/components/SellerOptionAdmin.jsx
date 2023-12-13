@@ -7,7 +7,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaUserAlt, FaCartPlus } from "react-icons/fa";
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../../assets/images/logo.png";
 import { Link, useNavigate } from 'react-router-dom';
 
 const SellerOptionsAdmin = () => {
