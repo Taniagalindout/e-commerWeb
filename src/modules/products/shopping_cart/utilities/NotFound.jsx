@@ -1,11 +1,9 @@
 import React from 'react';
-import SideBar from "../../../../components/generals/Siderbar";
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Clean from '../../../../assets/images/clean_cart.png'
 const NotFound = () => {
     return (
         <>
-<SideBar/>
         <Container fluid className="mt-100 d-flex justify-content-center align-items-center">
         <Row>
           <Col md={12}>
@@ -24,6 +22,7 @@ const NotFound = () => {
                   </h3>
                   <h4>Añade algo que me haga feliz :D</h4>
                   <Button
+                  href="/product-view"
                     variant="primary"
                     className="cart-btn-transform m-3"
                     data-abc="true"

@@ -21,6 +21,7 @@ const CardList = (props) => {
             {[...Array(props.rating)].map((index)=>(
               <FaStar color="#FFC000" id={index+1} key={index}/>
             ))} 
+            
           </div>
           <div className="productSales">Disponibles:({props.quantityAvailable})</div>
         </div>

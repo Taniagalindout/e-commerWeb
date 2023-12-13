@@ -23,7 +23,7 @@ const NotFoundWishlist = () => {
                   </h3>
                   <h4>Añade algo que te haga feliz :D</h4>
                   <Button
-                    href="/product-view"  // Atributo href para la redirección
+                    href="/product-view" 
                     className="cart-btn-transform m-3"
                     style={{ backgroundColor: '#4D53DD', borderColor: '#4D53DD' }}
                   >

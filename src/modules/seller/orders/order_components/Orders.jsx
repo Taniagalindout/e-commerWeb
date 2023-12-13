@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { FaStar, FaUsers, FaShoppingCart, FaDonate, FaChartLine, FaBoxOpen, FaTruck, FaHome } from "react-icons/fa";
 import { orderData } from '../utilities/orderData';
 const Orders = () => {
 

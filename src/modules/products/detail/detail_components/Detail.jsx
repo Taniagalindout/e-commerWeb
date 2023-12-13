@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../../../../assets/css/detail.css';
-import { FaStar, FaRegHeart } from 'react-icons/fa';
+import { FaStar, FaRegHeart,FaShoppingCart } from 'react-icons/fa';
 import DetailsTouch from '../utilities/DetailsTouch';
 import defaultImage from '../../../../assets/images/view.png';
+
+
 import { useParams } from 'react-router-dom';
 
 const Detail = (props) => {
   const [productDetails, setProductDetails] = useState(null);
   const [isHeartClicked, setIsHeartClicked] = useState(false);
   const { id } = useParams();
-  const tokenCacheKey = "/userData"; // Cambiar esto si el nombre real es diferente
+  const tokenCacheKey = "/userData";
 
   const getTokenFromCache = async () => {
     try {
@@ -48,7 +50,7 @@ const Detail = (props) => {
 
         if (response.ok) {
           const { data } = await response.json();
-          console.log('Data del producto:', data); // Imprime la data en consola
+          console.log('Data del producto:', data);
           setProductDetails(data);
         } else {
           console.error('Error al obtener los detalles del producto:', response.statusText);
@@ -82,9 +84,6 @@ const Detail = (props) => {
         const userData = await userDataResponse.json();
         const userId = userData && userData.user ? userData.user.idUser : null;
 
-        console.log("Datos del usuario:", userData);
-        console.log("UserId de la sesión:", userId);
-
         if (!userId) {
           console.error("UserId no encontrado en los datos del usuario.");
           return;
@@ -117,25 +116,78 @@ const Detail = (props) => {
     }
   };
 
-  if (!productDetails) {
-    return <p>Cargando...</p>;
-  }
+  const handleAddToCart = async () => {
+    try {
+      const token = await getTokenFromCache();
 
-  const imageUrl =
-    Array.isArray(productDetails.imageLinks) && productDetails.imageLinks.length > 0
-      ? productDetails.imageLinks[0]
-      : defaultImage;
+      if (!token) {
+        console.error("No se encontró el token en caché");
+        return;
+      }
+
+      const cache = await caches.open("salehub-cache-v1");
+      const userDataResponse = await cache.match("/userData");
+
+      if (!userDataResponse) {
+        console.error("No se encontraron datos de usuario en la caché.");
+        return;
+      }
+
+      const userData = await userDataResponse.json();
+      const userId = userData && userData.user ? userData.user.idUser : null;
+
+      if (!userId) {
+        console.error("UserId no encontrado en los datos del usuario.");
+        return;
+      }
+
+      const postObject = {
+        user: {
+          idUser: userId,
+        },
+        status: "Cancelado",
+        orderItemProducts: [
+          {
+            user: {
+              idUser: userId,
+            },
+            product: {
+              idProduct: id,
+            },
+            amount: 2,
+          },
+        ],
+      };
+
+      const response = await fetch('http://localhost:8080/api/order-items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(postObject),
+      });
+
+      if (response.ok) {
+        console.log('Producto agregado al carrito con éxito');
+      } else {
+        console.error('Error al agregar al carrito:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
+  };
 
   return (
     <div className="appdetail">
       {productDetails && (
         <div className="details" key={productDetails._id}>
           <div className="big-img">
-            <img src={imageUrl} alt="Product" />
+            <img src={productDetails.imageLinks[0] || defaultImage} alt="Product" />
           </div>
           <div className="box">
             <div className="row">
-              <h2 className="fav" >
+              <h2 className="fav">
                 {productDetails.name}
                 <FaRegHeart onClick={handleHeartClick} color={isHeartClicked ? 'red' : 'gray'} />
               </h2>
@@ -152,14 +204,14 @@ const Detail = (props) => {
             <div className='line'></div>
             <div className="displayStack2">
               <p>Tags: <span>{productDetails.tags}</span></p>
-              <p>Color: <span >Rojo</span></p>
+             
             </div>
             <div className='titledetails'>Stock {productDetails.quantityAvailable > 0 ? 'Disponible' : 'No disponible'}</div>
             <div><p>Cantidad: 1 unidad <span>({productDetails.quantityAvailable} disponibles)</span> </p></div>
             <div >Características: {productDetails.description}</div>
-            {/* <DetailsTouch images={productDetails.src} tab={handleTab} myRef={myRef} /> */}
-            <button className="cart btn btn-outline-primary  m-1" disabled={productDetails.quantityAvailable <= 0}>Agregar al Carrito</button>
-            <button className="cart btn btn-outline-primary  m-1 " disabled={productDetails.quantityAvailable <= 0}>Comprar Ahora</button>
+            <button className="cart btn-outline-primary m-1 buttons" disabled={productDetails.quantityAvailable <= 0} onClick={handleAddToCart}>
+              Agregar al Carrito <FaShoppingCart className="ml-2" />
+            </button>
           </div>
         </div>
       )}

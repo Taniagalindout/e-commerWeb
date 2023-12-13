@@ -42,7 +42,10 @@
 .cardProduct button:hover {
   opacity: 0.7;
 }
+.buttons{
+  border-radius: 16px;
 
+}
 .displayStar {
   margin: .5rem;
   margin-right: 1rem;

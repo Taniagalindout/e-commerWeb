@@ -56,8 +56,9 @@ function SideBar() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Home</Nav.Link>
+                  <Nav.Link href="/">Inicio</Nav.Link>
                   <Nav.Link href="/wishlist">Mis Favoritos</Nav.Link>
+                  <Nav.Link href="/shopping">Mis Productos</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

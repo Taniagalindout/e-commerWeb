@@ -1,17 +1,17 @@
-import Monitor from '../../../../../assets/images/monitor.png'
-import Ropa from '../../../../../assets/images/ropa.png'
-import Game from '../../../../../assets/images/game.png'
-import Home from '../../../../../assets/images/home.png'
-import Tvs from '../../../../../assets/images/tv.png'
-
-
 const categorias = [
-    {title:"Tecnología",url:Monitor},
-    {title:"Ropa",url:Ropa},
-    {title:"Juegos",url:Game},
-    {title:"Hogar",url:Home},
-    {title:"TV'S",url:Tvs},
  
-]
+        {"id": 1, "title": "Tecnología"},
+        {"id": 2, "title": "Ropa"},
+        {"id": 3, "title": "Videojuegos"},
+        {"id": 4, "title": "Hogar"},
+        {"id": 5, "title": "TV's"},
+        {"id": 6, "title": "Electronicos"},
+        {"id": 7, "title": "Deportes"},
+        {"id": 8, "title": "Libros"},
+        {"id": 9, "title": "Belleza",},
+        {"id": 10, "title": "Mascotas"},
+      ];
+ 
+
 
 export {categorias};

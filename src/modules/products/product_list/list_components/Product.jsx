@@ -1,51 +1,53 @@
-import React, { useState, useEffect } from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import CardList from "./CardList";
-import defaultImage from "../../../../assets/images/view.png";
-import { responsive } from "./utilities/productdata";
-import { getProducts } from "../../../../service/product/ListProduct";
+// Product.js
+import React, { useState, useEffect } from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import CardList from './CardList';
+import defaultImage from '../../../../assets/images/view.png';
+import { responsive } from './utilities/productdata';
+import { getProducts, getProductsByCategory } from '../../../../service/product/ListProduct'; // Ajusta las importaciones
+
+const getTokenFromCache = async () => {
+  try {
+    const cache = await caches.open("salehub-cache-v1");
+    const userDataResponse = await cache.match("userData");
+
+    if (userDataResponse) {
+      const userData = await userDataResponse.json();
+      return userData.accessToken;
+    } else {
+      console.log("No se encontró 'userData' en caché");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error al obtener el token de acceso:", error);
+    return null;
+  }
+};
 
 const Product = (props) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [accessToken, setAccessToken] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     useEffect(() => {
-        const getTokenFromCache = async () => {
-            try {
-                const cache = await caches.open("salehub-cache-v1");
-                const userDataResponse = await cache.match("userData");
-
-                if (userDataResponse) {
-                    const userData = await userDataResponse.json();
-                    return userData.accessToken;
-                } else {
-                    console.log("No se encontró 'userData' en caché");
-                    return null;
-                }
-            } catch (error) {
-                console.error("Error al obtener el token de acceso:", error);
-                return null;
-            }
-        };
-
         const fetchData = async () => {
             try {
                 const token = await getTokenFromCache();
 
                 if (!token) {
-                    console.error("No se encontró el token en caché");
-                    setError("No se encontró el token en caché");
+                    console.error('No se encontró el token en caché');
+                    setError('No se encontró el token en caché');
                     return;
                 }
 
-                const response = await getProducts(token);
+                let response;
 
-                if (!response) {
-                    setError("La respuesta es undefined. Verifica el servicio getProducts.");
-                    return;
+                if (selectedCategory) {
+                    response = await getProductsByCategory(selectedCategory, token);
+                } else {
+                    response = await getProducts(token);
                 }
 
                 if (response.ok) {
@@ -67,7 +69,7 @@ const Product = (props) => {
         };
 
         fetchData();
-    }, []);
+    }, [selectedCategory]);
 
     if (loading) {
         return <p>Loading...</p>;

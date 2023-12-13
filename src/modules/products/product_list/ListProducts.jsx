@@ -14,7 +14,7 @@ const ListProducts = () => {
 
 <Category title="Categorías" data = {categorias}/>
 
-<Product title="Ropa" />
+<Product title="Todos" />
 </div>
 
 
