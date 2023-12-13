@@ -297,6 +297,9 @@ const Register = () => {
               <Link to="/login" className="forgot-password">
                 Inicia sesion
               </Link>
+              <Link to="/registerseller" className="forgot-password">
+                Comienza a vender con nosotros
+              </Link>
             </div>
           </div>
         </div>

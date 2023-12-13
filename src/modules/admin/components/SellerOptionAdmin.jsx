@@ -1,16 +1,22 @@
 
-import React from "react";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { FaUserAlt, FaCartPlus } from "react-icons/fa";
-import Logo from "../../assets/images/logo.png";
-import { Link, useNavigate } from 'react-router-dom';
+import { FaUserAlt, FaBell  } from "react-icons/fa";
+import Logo from '../../../assets/images/Logo_white.png';
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SellerOptionsAdmin = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    
+    navigate('/login');
+  };
     return ( 
         <>
         {[false].map((expand) => (
@@ -19,31 +25,35 @@ const SellerOptionsAdmin = () => {
             expand={expand}
             className="mb-3"
             sticky="top"
+            style={{
+              backgroundColor:'#4D53DD'
+            }}
+  
           >
             <Container fluid>
+            
               <Navbar.Brand href="#">
                 <img
                   src={Logo}
                   width="90"
                   height="30"
                   className="d-inline-block align-top"
-                  alt="Logo"
                 />
               </Navbar.Brand>
               <Form className="d-flex ms-auto me-3 flex-grow-1">
                 <Form.Control
                   type="search"
-                  placeholder="Search"
+                  placeholder="Buscar"
                   className="me-2"
                   aria-label="Search"
+                 
                 />
-                <Link to="/cart">
-                  <FaCartPlus size={25} color="#4D53DD" className="me-2" />
-                </Link>
-                <FaUserAlt size={25} color="#4D53DD" className="me-2" />
-                <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+                  
+                  <p className="me-2">ADMIN</p>
+                  <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+                 
               </Form>
-  
+
               <Navbar.Offcanvas
                 id={`offcanvasNavbar-expand-${expand}`}
                 aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
@@ -51,16 +61,16 @@ const SellerOptionsAdmin = () => {
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                    Opciones Admin
+                    Opciones
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Nav.Link href="/">Inicio</Nav.Link>
+                  <Nav.Link href="/profile">Perfil</Nav.Link>
+
                     <Nav.Link href="/listusers">Usuarios</Nav.Link>
                     <Nav.Link href="/dashgral">Dashboard</Nav.Link>
                     <Nav.Link href="/listsellers">Solicitudes</Nav.Link>
-
                     <Nav.Link as={Link} to="/login" onClick={handleLogout}>Logout</Nav.Link>
                   </Nav>
                 </Offcanvas.Body>
@@ -69,7 +79,7 @@ const SellerOptionsAdmin = () => {
           </Navbar>
         ))}
       </>
-    );
-  }
+     );
+}
  
 export default SellerOptionsAdmin;

@@ -4,10 +4,13 @@ import Card from "react-bootstrap/Card";
 import SideBar from "../../../components/generals/Siderbar";
 import Avatar from "react-avatar";
 import Pagination from "react-bootstrap/Pagination";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import UpdateUser from "./UpdateUser";
 import "../../../assets/css/user.css";
 import { useNavigate } from "react-router-dom";
 import { FiWifi } from "react-icons/fi";
+import SellerOptions from "../../seller/components/root/SellerOptions";
+import SellerOptionsAdmin from "../components/SellerOptionAdmin";
 
 const ListUsers = () => {
   const [accessToken, setAccessToken] = useState("");
@@ -122,7 +125,7 @@ const ListUsers = () => {
       )}
       <div className="row">
         <div className="col-12">
-          <SideBar />
+          <SellerOptionsAdmin />
 
           {currentUsers.map((user) => (
             <Card key={user.idUser} className="mb-3 card-user">

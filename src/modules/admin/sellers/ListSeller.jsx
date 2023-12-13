@@ -6,6 +6,7 @@ import { FiWifi } from "react-icons/fi";
 import { getSellers } from "../../../service/admin-seller/ListSellers";
 import SideBar from "../../../components/generals/Siderbar";
 import "../../../assets/css/user.css";
+import SellerOptionsAdmin from "../components/SellerOptionAdmin";
 
 const ListSeller = () => {
   const [accessToken, setAccessToken] = useState("");
@@ -147,7 +148,7 @@ const ListSeller = () => {
       )}
       <div className="row">
         <div className="col-12">
-          <SideBar />
+          <SellerOptionsAdmin />
           {currentSellers.map((seller) => (
             <Card key={seller.idSeller} className="mb-3 card-user">
               <Card.Body className="d-flex align-items-center justify-content-between">

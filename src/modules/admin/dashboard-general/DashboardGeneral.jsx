@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import PointChart from "./components/PointChart";
 import { FiWifi } from "react-icons/fi";
+import SellerOptionsAdmin from "../components/SellerOptionAdmin";
 
 const DashboardGeneral = () => {
   const [accessToken, setAccessToken] = useState("");
@@ -143,7 +144,7 @@ const DashboardGeneral = () => {
 
   return (
     <div className="container-fluid">
-      <SideBar />
+      <SellerOptionsAdmin />
 
       <div className="row">
         {showConnectionAlert && (
