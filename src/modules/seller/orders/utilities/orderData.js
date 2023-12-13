@@ -29,7 +29,7 @@ const orderData = [
     },
     {
       id: 3,
-      id: 2,
+     
       order: "Samuel Cano",
       product: "Los Rotos",
       delivery: "SPEED",
@@ -43,7 +43,7 @@ const orderData = [
     },
     {
         id: 4,
-        id: 2,
+       
         order: "Samuel Cano",
         product: "Los Rotos",
         delivery: "SPEED",
@@ -57,7 +57,7 @@ const orderData = [
       },
       {
         id: 5,
-        id: 2,
+      
         order: "Samuel Cano",
         product: "Los Rotos",
         delivery: "SPEED",
@@ -71,7 +71,7 @@ const orderData = [
       },
       {
         id: 6,
-        id: 2,
+       
         order: "Samuel Cano",
         product: "Los Rotos",
         delivery: "SPEED",

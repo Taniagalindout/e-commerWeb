@@ -1,3 +1,4 @@
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -6,8 +7,19 @@ import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaUserAlt, FaCartPlus } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
+import { Link, useNavigate } from 'react-router-dom';
 
 function SideBar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Limpiar el almacenamiento local o cualquier otro caché necesario
+    localStorage.clear();
+    
+    // Redirige al usuario a la página de inicio de sesión
+    navigate('/login');
+  };
+
   return (
     <>
       {[false].map((expand) => (
@@ -16,7 +28,6 @@ function SideBar() {
           expand={expand}
           className="mb-3"
           sticky="top"
-
         >
           <Container fluid>
             <Navbar.Brand href="#">
@@ -25,6 +36,7 @@ function SideBar() {
                 width="90"
                 height="30"
                 className="d-inline-block align-top"
+                alt="Logo"
               />
             </Navbar.Brand>
             <Form className="d-flex ms-auto me-3 flex-grow-1">
@@ -34,10 +46,11 @@ function SideBar() {
                 className="me-2"
                 aria-label="Search"
               />
+              <Link to="/cart">
                 <FaCartPlus size={25} color="#4D53DD" className="me-2" />
-                <FaUserAlt size={25} color="#4D53DD" className="me-2" />
-                <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-
+              </Link>
+              <FaUserAlt size={25} color="#4D53DD" className="me-2" />
+              <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             </Form>
 
             <Navbar.Offcanvas
@@ -47,13 +60,15 @@ function SideBar() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Offcanvas
+                  Opciones
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Home</Nav.Link>
-                  <Nav.Link href="#action2">Link</Nav.Link>
+                  <Nav.Link href="/">Inicio</Nav.Link>
+                  <Nav.Link href="/wishlist">Mis Favoritos</Nav.Link>
+                  <Nav.Link href="/shopping">Mis Productos</Nav.Link>
+                  <Nav.Link as={Link} to="/login" onClick={handleLogout}>Logout</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

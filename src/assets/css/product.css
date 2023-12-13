@@ -8,6 +8,7 @@
   width: 100%;
   height: 16em;
   object-fit: cover;
+  margin-bottom: .5rem; 
 }
 
 .product h1 {
@@ -21,18 +22,30 @@
   text-align: center;
   font-family: arial;
   position: relative; 
+  
+}
+
+.cardProduct h5 {
+    font-weight: 600;
+    font-size: 1rem;
+    
 }
 
 .price {
   color: #4D53DD;
   font-size: 22px;
   font-weight: bold;
+  margin-bottom: 0; 
+
 }
 
 .cardProduct button:hover {
   opacity: 0.7;
 }
+.buttons{
+  border-radius: 16px;
 
+}
 .displayStar {
   margin: .5rem;
   margin-right: 1rem;
@@ -43,6 +56,7 @@
 
 .productSales {
   color: gray;
+  font-size: 14px;
 }
 
 .view {
@@ -50,7 +64,7 @@
   top: 0;
   opacity: 0;
   width: 100%;
-  height: 71%;
+  height: 72%;
   display: flex;
   color: white;
   font-size: 30px;

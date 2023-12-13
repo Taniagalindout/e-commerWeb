@@ -161,6 +161,11 @@
     !important;
 }
 
+.bg-sale {
+    background-color: #4D53DD
+    !important;
+}
+
 .green {
     color: #007965 !important;
 }

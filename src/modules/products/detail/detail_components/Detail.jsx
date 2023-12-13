@@ -1,88 +1,262 @@
-import React, { useState, useEffect, useRef } from 'react';
-import '../../../../assets/css/detail.css'
-import { FaStar } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import '../../../../assets/css/detail.css';
+import { FaStar, FaRegHeart,FaShoppingCart } from 'react-icons/fa';
 import DetailsTouch from '../utilities/DetailsTouch';
+import defaultImage from '../../../../assets/images/view.png';
+import { useNavigate } from "react-router-dom";
+import { FiWifi } from "react-icons/fi";
 
-const Detail = () => {
+import { useParams } from 'react-router-dom';
 
-    const [state, setState] = useState({
-        products: [
-            {
-                "_id": "1",
-                "title": "Camisa Chida",
-                "src": [
-                    "https://img.ltwebstatic.com/images3_pi/2022/11/08/16679024983a63fa02d2ba32a3026e3d3d35d5f709_thumbnail_720x.webp",
-                    "https://img.ltwebstatic.com/images3_pi/2022/11/08/16679025019f3b645b07f447dcf51ebdfb299842e5_thumbnail_720x.webp",
-                    "https://img.ltwebstatic.com/images3_pi/2022/11/08/16679025034151046f1528200fbcabe105c7a720c8_thumbnail_720x.webp",
-                ],
-                "description": "El iPhone 14 viene con el sistema de dos cámaras más impresionante en un iPhone, para que tomes fotos espectaculares con mucha o poca luz. Y te da más tranquilidad gracias a una funcionalidad de seguridad que salva vidas.",
-                "mark": "Manfinity EMRG",
-                "price": 23,
-                "color": "Blanco",
-                "stock": 2,
-                "category": "ROPA",
-                "rating": 4.1,
-                "totalSales": 200,
-            }
+const Detail = (props) => {
+  const [productDetails, setProductDetails] = useState(null);
+  const [isHeartClicked, setIsHeartClicked] = useState(false);
+  const { id } = useParams();
+  const tokenCacheKey = "/userData";
 
-        ],
-        index: 0,
-    });
+    // Estado para la alerta de conexión
+    const [showConnectionAlert, setShowConnectionAlert] = useState(false);
+    const [isOnline, setIsOnline] = useState(navigator.onLine);
+    const navigate = useNavigate();
+    //
 
-    const handleTab = (index) => {
-        setState((prevState) => ({
-            ...prevState,
-            index: index,
-        })
 
-        );
-        const newImages = myRef.current.children;
-        for (let i = 0; i < newImages.length; i++) {
-            newImages[i].className = newImages[i].className.replace("active", "");
-        }
-        newImages[index].className = "active";
+      //Offline
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
     };
 
-    const myRef = useRef();
-    return (
-        <div className="appdetail">
-            {
-                state.products.map((item) => (
-                    <div className="details" key={item._id}>
-                        <div className="big-img">
-                            <img src={item.src[state.index]} />
-                        </div>
-                        <div className='box'>
-                            <div className='row'>
-                                <h2 className='fav'>{item.title}<FaRegHeart color='red' /></h2>
-                                <span>{item.category}</span>
-                                <div>${item.price}</div>
-                            </div>
-                            <div className="displayStack">
-                                <div>
-                                    Calificación: {item.rating} <FaStar color="#FFC000" />
-                                </div>
-                                <p>({item.totalSales})</p>
-                            </div>
-                            <div className='titledetails'>Detalles del producto</div>
-                            <div className='line'></div>
-                            <div className="displayStack2">
-                                <p>Marca: <span>{item.mark}</span></p>
-                                <p>Color: <span >{item.color}</span></p>
-                            </div>
-                            <div className='titledetails'>Stock {item.stock > 0 ? 'Disponible' : 'No disponible'}</div>
-                            <div><p>Cantidad: 1 unidad <span>({item.stock} disponibles)</span> </p></div>
-                            <div >Características: {item.description}</div>
-                            <DetailsTouch images={item.src} tab={handleTab} myRef={myRef} />
-                            <button className="cart btn btn-outline-primary  m-1" disabled={item.stock <= 0}>Agregar al Carrito</button>
-                            <button className="cart btn btn-outline-primary  m-1 " disabled={item.stock <= 0}>Comprar Ahora</button>
-                        </div>
-                    </div>
-                ))
-            }
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOnlineStatus);
+    };
+  }, []);
+  //Offline
+
+  const getTokenFromCache = async () => {
+    try {
+      const cache = await caches.open("salehub-cache-v1");
+      const userDataResponse = await cache.match(tokenCacheKey);
+
+      if (userDataResponse) {
+        const userData = await userDataResponse.json();
+        return userData.accessToken;
+      } else {
+        console.log(`No se encontró '${tokenCacheKey}' en caché`);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error al obtener el token de acceso:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const token = await getTokenFromCache();
+
+        if (!token) {
+          console.error("No se encontró el token en caché");
+          return;
+        }
+
+        const response = await fetch(`http://localhost:8080/api/products/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const { data } = await response.json();
+          console.log('Data del producto:', data);
+          setProductDetails(data);
+        } else {
+          console.error('Error al obtener los detalles del producto:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error al obtener los detalles del producto:', error);
+      }
+    };
+
+    fetchProductDetails();
+  }, [id]);
+
+    // Offline
+    useEffect(() => {
+      if (!isOnline) {
+        setShowConnectionAlert(true);
+      } else {
+        setShowConnectionAlert(false);
+      }
+    }, [isOnline]);
+    // Offline
+
+  const handleHeartClick = async () => {
+    if (!isHeartClicked) {
+      try {
+        const token = await getTokenFromCache();
+
+        if (!token) {
+          console.error("No se encontró el token en caché");
+          return;
+        }
+
+        const cache = await caches.open("salehub-cache-v1");
+        const userDataResponse = await cache.match("/userData");
+
+        if (!userDataResponse) {
+          console.error("No se encontraron datos de usuario en la caché.");
+          return;
+        }
+
+        const userData = await userDataResponse.json();
+        const userId = userData && userData.user ? userData.user.idUser : null;
+
+        if (!userId) {
+          console.error("UserId no encontrado en los datos del usuario.");
+          return;
+        }
+
+        const response = await fetch('http://localhost:8080/api/wishlists', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            user: {
+              idUser: userId,
+            },
+            product: {
+              idProduct: id,
+            },
+          }),
+        });
+
+        if (response.ok) {
+          setIsHeartClicked(true);
+        } else {
+          console.error('Error al agregar a favoritos:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+      }
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      const token = await getTokenFromCache();
+
+      if (!token) {
+        console.error("No se encontró el token en caché");
+        return;
+      }
+
+      const cache = await caches.open("salehub-cache-v1");
+      const userDataResponse = await cache.match("/userData");
+
+      if (!userDataResponse) {
+        console.error("No se encontraron datos de usuario en la caché.");
+        return;
+      }
+
+      const userData = await userDataResponse.json();
+      const userId = userData && userData.user ? userData.user.idUser : null;
+
+      if (!userId) {
+        console.error("UserId no encontrado en los datos del usuario.");
+        return;
+      }
+
+      const postObject = {
+        user: {
+          idUser: userId,
+        },
+        status: "Cancelado",
+        orderItemProducts: [
+          {
+            user: {
+              idUser: userId,
+            },
+            product: {
+              idProduct: id,
+            },
+            amount: 1,
+          },
+        ],
+      };
+
+      const response = await fetch('http://localhost:8080/api/order-items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(postObject),
+      });
+
+      if (response.ok) {
+        console.log('Producto agregado al carrito con éxito');
+      } else {
+        console.error('Error al agregar al carrito:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
+  };
+
+  return (
+    <div className="appdetail">
+       {showConnectionAlert && (
+        <div className="alert alert-warning" role="alert">
+          Cuidado ! Necesitas conexión a internet
+          <FiWifi />
         </div>
-    );
-}
+      )}
+      {productDetails && (
+        <div className="details" key={productDetails._id}>
+          <div className="big-img">
+            <img src={productDetails.imageLinks[0] || defaultImage} alt="Product" />
+          </div>
+          <div className="box">
+            <div className="row">
+              <h2 className="fav">
+                {productDetails.name}
+                <FaRegHeart onClick={handleHeartClick} color={isHeartClicked ? 'red' : 'gray'} />
+              </h2>
+              <span>{productDetails.category.name}</span>
+              <div>${productDetails.price}</div>
+            </div>
+            <div className="displayStack">
+              <div>
+                Calificación: {productDetails.seller.rating} <FaStar color="#FFC000" />
+              </div>
+              <p>({productDetails.quantitySold})</p>
+            </div>
+            <div className='titledetails'>Detalles del producto</div>
+            <div className='line'></div>
+            <div className="displayStack2">
+              <p>Tags: <span>{productDetails.tags}</span></p>
+             
+            </div>
+            <div className='titledetails'>Stock {productDetails.quantityAvailable > 0 ? 'Disponible' : 'No disponible'}</div>
+            <div><p>Cantidad: 1 unidad <span>({productDetails.quantityAvailable} disponibles)</span> </p></div>
+            <div >Características: {productDetails.description}</div>
+            <button className="cart btn-outline-primary m-1 buttons" disabled={productDetails.quantityAvailable <= 0} onClick={handleAddToCart}>
+              Agregar al Carrito <FaShoppingCart className="ml-2" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Detail;

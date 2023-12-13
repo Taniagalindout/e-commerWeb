@@ -34,6 +34,7 @@ function App() {
           <Route path='/clean-wishlist' element={<NotFoundWishlist />} />
           <Route path='/cart' element={<ShoppingCart/>} />
           <Route path='/clean-cart' element={<NotFound/>}/>
+          <Route path='/shopping' element={<ListOrdersUser/>} />
           <Route path="/home-seller/*" element={<HomeSeller />} />
           <Route path="/lostpswd" element={<LostPassword />} />
           <Route path="/changepswd" element={<ChangePassword />} />
