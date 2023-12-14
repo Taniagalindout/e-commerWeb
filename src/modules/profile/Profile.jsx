@@ -86,6 +86,7 @@ const Profile = () => {
 
   return (
     <div className="container-fluid">
+      <SideBar />
       <div className="row">
         <div className="col-12">
           <Card className="cardStyle">

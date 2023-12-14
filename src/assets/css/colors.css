@@ -1,0 +1,13 @@
+.primaryColor {
+  color: #4d53dd;
+  font-weight: 400;
+  font-size: large;
+}
+
+.secondaryColor {
+    color: #ff6fc4;
+    font-weight: 400;
+}
+.tertiaryColor {
+  background-color: #ff6fc4;
+}
