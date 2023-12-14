@@ -92,9 +92,9 @@ const Login = () => {
           return toast.error("Usuario y/o contraseña incorrectos.");
         }
         if (response.status === 200) {
-          caches.open("salehub-cache-v1").then((cache) => {
+          /*caches.open("salehub-cache-v1").then((cache) => {
             cache.put("userData", new Response(JSON.stringify(response)));
-          });
+          });*/
           navigate("/");
           return toast.success(`¡Bienvenido ${response.user.name}!`);
         }
