@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -7,31 +8,30 @@ import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaUserAlt, FaCartPlus } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
-import { Link, useNavigate } from 'react-router-dom';
 
 function SideBar() {
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState('');
+  const [userRole, setUserRole] = useState("");
 
   const handleLogout = async () => {
-    // Limpiar el almacenamiento local
+    // Clear local storage
     localStorage.clear();
 
-    // Borrar el caché específico de la aplicación
+    // Delete the specific cache of the application
     try {
       if ('caches' in window) {
         const cacheNames = await caches.keys();
-        const matchCache = cacheNames.find(name => name === 'salehub-cache-v1');
+        const matchCache = cacheNames.find((name) => name === 'salehub-cache-v1');
         if (matchCache) {
           await caches.delete('salehub-cache-v1');
-          console.log('Caché de la aplicación eliminado.');
+          console.log('Application cache deleted.');
         }
       }
     } catch (error) {
-      console.error('Error al intentar borrar el caché de la aplicación:', error);
+      console.error('Error trying to delete the application cache:', error);
     }
 
-    // Redirige al usuario a la página de inicio de sesión
+    // Redirect the user to the login page
     navigate('/login');
   };
 
@@ -47,6 +47,59 @@ function SideBar() {
 
     checkUserSession();
   }, []);
+
+  const renderRoleBasedOptions = () => {
+    console.log("User role:", userRole);
+
+    if (userRole === 1) {
+      console.log("Rendering My Favorites");
+      return (
+        <>
+          <Nav.Link href="/wishlist">Mis Favoritos</Nav.Link>
+          <Nav.Link href="/shopping">Mis Productos</Nav.Link>
+          <Nav.Link as={Link} to="/login" onClick={handleLogout}>
+            Logout
+          </Nav.Link>
+        </>
+      );
+    } else if (userRole === 2) {
+      console.log("Rendering Sales");
+      return (
+        <>
+          <Nav.Link href="/home-seller/">Dashboard</Nav.Link>
+          <Nav.Link href="/home-seller/orders">My Orders</Nav.Link>
+          <Nav.Link as={Link} to="/login" onClick={handleLogout}>
+            Logout
+          </Nav.Link>
+        </>
+      );
+    } else if (userRole === 3) {
+      console.log("Rendering Users");
+      return (
+        <>
+          <Nav.Link href="/users">Orders</Nav.Link>
+          <Nav.Link as={Link} to="/login" onClick={handleLogout}>
+            Logout
+          </Nav.Link>
+        </>
+      );
+    } else if (userRole === 4) {
+      return (
+        <>
+          <Nav.Link href="/users">Users</Nav.Link>
+          <Nav.Link as={Link} to="/login" onClick={handleLogout}>
+            Logout
+          </Nav.Link>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Nav.Link href="/">Inicio</Nav.Link>
+        </>
+      );
+    }
+  };
 
   return (
     <>
@@ -73,7 +126,9 @@ function SideBar() {
                 <FaCartPlus size={25} color="#4D53DD" className="me-2" />
               </Link>
               <FaUserAlt size={25} color="#4D53DD" className="me-2" />
-              <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+              <Navbar.Toggle
+                aria-controls={`offcanvasNavbar-expand-${expand}`}
+              />
             </Form>
 
             <Navbar.Offcanvas
@@ -83,15 +138,12 @@ function SideBar() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Opciones
+                  Options
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="/">Inicio</Nav.Link>
-                  <Nav.Link href="/wishlist">Mis Favoritos</Nav.Link>
-                  <Nav.Link href="/shopping">Mis Productos</Nav.Link>
-                  <Nav.Link as={Link} to="/login" onClick={handleLogout}>Logout</Nav.Link>
+                  {renderRoleBasedOptions()}
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

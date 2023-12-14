@@ -122,7 +122,7 @@ const Orders = () => {
                               value={formData.name}
                               onChange={handleInputChange} />
                         </Form.Group>
-//mio
+
                         <Form.Group className="mb-3" controlId="formProductPrice">
                             <Form.Label>Precio</Form.Label>
                             <Form.Control type="text" placeholder="Ingresa el precio" />

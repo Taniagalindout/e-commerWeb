@@ -58,6 +58,7 @@ const SellerOptions = () => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link href="/home-seller/">Dashboard</Nav.Link>
                     <Nav.Link href="/home-seller/orders">Mis Productos</Nav.Link>
                     <Nav.Link href="/login">Logout</Nav.Link>
                   </Nav>
