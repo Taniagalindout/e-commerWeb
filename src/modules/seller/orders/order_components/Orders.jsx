@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { orderData } from '../utilities/orderData';
 import { createProduct } from '../../../../service/productseller/ProductSeller';
+import { orderData } from '../utilities/orderData';
 
 const Orders = () => {
-    const [showModal, setShowModal] = useState(false);
+
     const categories = [
         {"id": 1, "name": "Tecnología"},
         {"id": 2, "name": "Ropa"},
@@ -18,12 +18,58 @@ const Orders = () => {
         {"id": 10, "name": "Mascotas"},
     ];
 
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        price: '',
+        quantityAvailable: '',
+        category: '',
+        description: '',
+        tags: '',
+        images: []
+    });
+
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
 
+    const handleInputChange = (event) => {
+        const { id, value } = event.target;
+        setFormData({ ...formData, [id]: value });
+    };
+
+    const handleImagesChange = (event) => {
+        setFormData({ ...formData, images: [...event.target.files] });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const productData = new FormData();
+        productData.append('product', JSON.stringify({
+            name: formData.name,
+            price: parseFloat(formData.price),
+            quantityAvailable: parseInt(formData.quantityAvailable, 10),
+            category: { idCategory: parseInt(formData.category, 10) },
+            description: formData.description,
+            tags: formData.tags.split(',').map(tag => tag.trim()),
+            seller: { idSeller: 10 } // Asume que el id del vendedor es 1, ajustar según sea necesario
+        }));
+        formData.images.forEach(file => {
+            productData.append('images', file);
+        });
+
+        try {
+            const response = await createProduct(productData);
+            console.log(response);
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error al registrar el producto:', error);
+        }
+    };
+
     return (
         <div className="container-fluid">
-            <div className='row'>
+             <div className='row'>
                 <div className="col-lg-9 my-lg-0 my-1 mx-auto">
                     <div id="main-content" className="app-container border">
                         <div className="d-flex justify-content-between align-items-center">
@@ -62,16 +108,19 @@ const Orders = () => {
                     </div>
                 </div>
             </div>
-
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Registrar producto</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="formProductName">
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3" controlId="name">
                             <Form.Label>Nombre</Form.Label>
-                            <Form.Control type="text" placeholder="Ingresa nombre del producto" />
+                            <Form.Control 
+                              type="text" 
+                              placeholder="Ingresa nombre del producto" 
+                              value={formData.name}
+                              onChange={handleInputChange} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formProductPrice">
@@ -106,16 +155,22 @@ const Orders = () => {
                             <Form.Control type="text" placeholder="Agrega etiquetas para que puedan buscar..." />
                         </Form.Group>
 
-                        <Form.Group controlId="formFileMultiple" className="mb-3">
+
+                        {/* ... otros campos del formulario ... */}
+
+                        <Form.Group className="mb-3" controlId="images">
                             <Form.Label>Seleccionar Imágenes</Form.Label>
-                            <Form.Control type="file" multiple />
+                            <Form.Control 
+                              type="file" 
+                              multiple 
+                              onChange={handleImagesChange} />
                         </Form.Group>
 
                         <div className="d-flex justify-content-end">
                             <Button variant="secondary" onClick={handleCloseModal} className="me-2">
                                 Cerrar
                             </Button>
-                            <Button variant="primary" onClick={handleCloseModal}>
+                            <Button variant="primary" type="submit">
                                 Guardar Cambios
                             </Button>
                         </div>
@@ -127,4 +182,8 @@ const Orders = () => {
 }
 
 export default Orders;
+
+
+
+
 

@@ -1,4 +1,7 @@
 import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
@@ -17,30 +20,48 @@ import Logo from "../../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../../assets/css/colors.css";
+
 function SideBar() {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState("");
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // Clear local storage
     localStorage.clear();
-    navigate("/login");
+
+    // Delete the specific cache of the application
+    try {
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        const matchCache = cacheNames.find((name) => name === 'salehub-cache-v1');
+        if (matchCache) {
+          await caches.delete('salehub-cache-v1');
+          console.log('Application cache deleted.');
+        }
+      }
+    } catch (error) {
+      console.error('Error trying to delete the application cache:', error);
+    }
+
+    // Redirect the user to the login page
+    navigate('/login');
   };
 
   useEffect(() => {
     const checkUserSession = async () => {
       const cache = await caches.open("salehub-cache-v1");
-      const userDataResponse = await cache.match("userData");
+      const userDataResponse = await cache.match("/userData");
       if (userDataResponse) {
         const userData = await userDataResponse.json();
-        console.log(userData + "userDataaaaaaaaa");
         setUserRole(userData.user.rol.idRol);
       }
     };
+
     checkUserSession();
   }, []);
 
   const renderRoleBasedOptions = () => {
-    console.log("Rol del usuario:", userRole);
+    console.log("User role:", userRole);
 
     if (userRole === 1) {
       console.log("Rendering Mis Favoritos");
@@ -68,7 +89,7 @@ function SideBar() {
         </>
       );
     } else if (userRole === 2) {
-      console.log("Rendering Ventas");
+      console.log("Rendering Sales");
       return (
         <>
           <Nav.Link href="/profile">
@@ -81,7 +102,7 @@ function SideBar() {
         </>
       );
     } else if (userRole === 3) {
-      console.log("Rendering Usuarios");
+      console.log("Rendering Users");
       return (
         <>
           <Nav.Link href="/profile">
@@ -89,6 +110,7 @@ function SideBar() {
           </Nav.Link>
 
           <Nav.Link href="/users">Pedidos</Nav.Link>
+          <Nav.Link href="/users">Orders</Nav.Link>
           <Nav.Link as={Link} to="/login" onClick={handleLogout}>
             Logout
           </Nav.Link>
@@ -123,6 +145,10 @@ function SideBar() {
             <span className="secondaryColor">Cerrar sesión</span>
           </Nav.Link>
           </>
+          <Nav.Link href="/users">Users</Nav.Link>
+          <Nav.Link as={Link} to="/login" onClick={handleLogout}>
+            Logout
+          </Nav.Link>
         </>
       );
     } else {
