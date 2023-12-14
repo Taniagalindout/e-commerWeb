@@ -8,9 +8,10 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaUserAlt, FaCartPlus } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useEffect, useState } from "react";
 function SideBar() {
   const navigate = useNavigate();
+  const [userRole, setUserRole] = useState('');
 
   const handleLogout = () => {
     // Limpiar el almacenamiento local o cualquier otro caché necesario
@@ -19,6 +20,20 @@ function SideBar() {
     // Redirige al usuario a la página de inicio de sesión
     navigate('/login');
   };
+
+  useEffect(() => {
+    const checkUserSession = async () => {
+      const cache = await caches.open("salehub-cache-v1");
+      const userDataResponse = await cache.match("userData");
+      if (userDataResponse) {
+        const userData = await userDataResponse.json();
+        setUserRole(userData.user.rol.idRol);
+      }
+    };
+
+    checkUserSession();
+  }, []);
+
 
   return (
     <>
@@ -69,6 +84,7 @@ function SideBar() {
                   <Nav.Link href="/wishlist">Mis Favoritos</Nav.Link>
                   <Nav.Link href="/shopping">Mis Productos</Nav.Link>
                   <Nav.Link as={Link} to="/login" onClick={handleLogout}>Logout</Nav.Link>
+                  
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
