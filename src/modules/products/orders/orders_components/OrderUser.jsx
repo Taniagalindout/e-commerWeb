@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import defaultImage from '../../../../assets/images/order.png'
+import NotFoundOrder from './NotFoundOrder';
 const OrdersUser = () => {
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
@@ -54,7 +55,7 @@ const OrdersUser = () => {
             setErrorOrders('Error al obtener las órdenes: formato de datos incorrecto');
           }
         } else {
-          setErrorOrders(`Error al obtener las órdenes: ${ordersResponse.statusText}`);
+          setErrorOrders("sin ordenes");
         }
       } catch (error) {
         setErrorOrders(`Error de red: ${error}`);
@@ -76,7 +77,7 @@ const OrdersUser = () => {
               {loadingOrders ? (
                 <p>Cargando órdenes...</p>
               ) : errorOrders ? (
-                <p>Error al cargar órdenes: {errorOrders}</p>
+               <NotFoundOrder/>
               ) : orders.length === 0 ? (
                 <p>No hay órdenes disponibles.</p>
               ) : (

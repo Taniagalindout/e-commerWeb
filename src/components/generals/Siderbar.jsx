@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -8,15 +8,29 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaUserAlt, FaCartPlus } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
+
 function SideBar() {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState('');
 
-  const handleLogout = () => {
-    // Limpiar el almacenamiento local o cualquier otro caché necesario
+  const handleLogout = async () => {
+    // Limpiar el almacenamiento local
     localStorage.clear();
-    
+
+    // Borrar el caché específico de la aplicación
+    try {
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        const matchCache = cacheNames.find(name => name === 'salehub-cache-v1');
+        if (matchCache) {
+          await caches.delete('salehub-cache-v1');
+          console.log('Caché de la aplicación eliminado.');
+        }
+      }
+    } catch (error) {
+      console.error('Error al intentar borrar el caché de la aplicación:', error);
+    }
+
     // Redirige al usuario a la página de inicio de sesión
     navigate('/login');
   };
@@ -24,7 +38,7 @@ function SideBar() {
   useEffect(() => {
     const checkUserSession = async () => {
       const cache = await caches.open("salehub-cache-v1");
-      const userDataResponse = await cache.match("userData");
+      const userDataResponse = await cache.match("/userData");
       if (userDataResponse) {
         const userData = await userDataResponse.json();
         setUserRole(userData.user.rol.idRol);
@@ -34,16 +48,10 @@ function SideBar() {
     checkUserSession();
   }, []);
 
-
   return (
     <>
       {[false].map((expand) => (
-        <Navbar
-          key={expand}
-          expand={expand}
-          className="mb-3"
-          sticky="top"
-        >
+        <Navbar key={expand} expand={expand} className="mb-3" sticky="top">
           <Container fluid>
             <Navbar.Brand href="#">
               <img
@@ -84,7 +92,6 @@ function SideBar() {
                   <Nav.Link href="/wishlist">Mis Favoritos</Nav.Link>
                   <Nav.Link href="/shopping">Mis Productos</Nav.Link>
                   <Nav.Link as={Link} to="/login" onClick={handleLogout}>Logout</Nav.Link>
-                  
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
