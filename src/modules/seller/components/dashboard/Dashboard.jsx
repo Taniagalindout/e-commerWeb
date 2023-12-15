@@ -161,7 +161,7 @@ const Dashboard = () => {
           <div className="d-flex flex-column">
             <div className="fs-8">Repartidor: <span>vendor</span></div>
             <div className="fs-8">Cantidad: <span>12</span></div>
-            <div className="text-uppercase">Total: <span></span></div>
+            <div className="text-uppercase">Total:1222 <span></span></div>
           </div>
           <div className="green-label ms-auto text-uppercase">Pagado</div>
         </div>
@@ -180,10 +180,8 @@ const Dashboard = () => {
                     <div className="d-flex justify-content-center">
                         <PieChart />
                     </div>
-                    <div class="title-chart mt-3">Categorias mas vendidas:</div>
-                    <div className="d-flex justify-content-center ">
-                        <PieChart />
-                    </div>
+                    {/* <div class="title-chart mt-3">Categorias mas vendidas:</div> */}
+                   
                 </div>
             </div>
         </div>
