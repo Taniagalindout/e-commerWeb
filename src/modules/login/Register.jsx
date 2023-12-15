@@ -20,7 +20,7 @@ const Register = () => {
     email: "",
     password: "",
     rol: {
-      idRol: 1,
+      idRol: 3,
     },
   });
   const navigate = useNavigate();
@@ -117,23 +117,12 @@ const Register = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      // Llamas a la función de autenticación con Google
       await signInWithGoogle();
-
-      // Después de la autenticación exitosa, puedes realizar acciones adicionales aquí
-      // Por ejemplo, puedes obtener información del usuario si es necesario
-      // Esto podría incluir el envío de datos al backend
-
-      // Obtener información del usuario desde Firebase (solo como ejemplo, debes ajustarlo a tu lógica real)
-      const user = auth.currentUser; // Aquí obtienes el usuario actualmente autenticado
-
-      // Verificar si el usuario existe y obtener sus datos
+      const user = auth.currentUser; 
       if (user) {
         const { displayName, email } = user;
         let name = "";
         let lastName = "";
-
-        // Separar el nombre y apellido si están presentes en el nombre de visualización
         if (displayName.includes(" ")) {
           const nameArray = displayName.split(" ");
           name = nameArray[0];
@@ -147,16 +136,12 @@ const Register = () => {
           name,
           lastname: lastName,
           email,
-          password: "", // No obtendrás la contraseña del usuario desde Firebase por razones de seguridad
+          password: "",
           rol: {
             idRol: 1,
           },
         };
-
-        // Aquí llamas a la función para crear el usuario en el backend y pasas los datos obtenidos
         const response = await createUser(userData);
-
-        // Manejar la respuesta del backend después de crear el usuario
         if (response.status === 201 && response.message === "success") {
           console.log("El usuario se ha creado correctamente");
           navigate("/login");
@@ -287,9 +272,7 @@ const Register = () => {
               className="button-form google-login register-button"
               onClick={handleGoogleSignIn}
             >
-              {
-                //Aqui va el icono de Google pero no lo encontré
-              }
+            
               <span className="login-button-text">Registrate con Google</span>
             </button>
             <div className="sign-in">
@@ -297,6 +280,7 @@ const Register = () => {
               <Link to="/login" className="forgot-password">
                 Inicia sesion
               </Link>
+              <p></p>
               <Link to="/registerseller" className="forgot-password">
                 Comienza a vender con nosotros
               </Link>

@@ -6,7 +6,8 @@ import { FiWifi } from "react-icons/fi";
 import { getSellers } from "../../../service/admin-seller/ListSellers";
 import SideBar from "../../../components/generals/Siderbar";
 import "../../../assets/css/user.css";
-import SellerOptionsAdmin from "../components/SellerOptionAdmin";
+import { Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const ListSeller = () => {
   const [accessToken, setAccessToken] = useState("");
@@ -15,6 +16,17 @@ const ListSeller = () => {
   const [sellersPerPage] = useState(5);
   const [showConnectionAlert, setShowConnectionAlert] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedSeller, setSelectedSeller] = useState(null);
+
+  const openModal = (seller) => {
+    setSelectedSeller(seller);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   useEffect(() => {
     const handleOnlineStatus = () => {
@@ -54,15 +66,27 @@ const ListSeller = () => {
       const response = await getSellers(accessToken);
       if (response && response.data) {
         setSellersData(response.data);
+        console.log("Response de getSellers:", response);
       }
     } catch (error) {
       console.error("Error al obtener vendedores:", error);
     }
   };
+
+  const fetchSellerDataAndUpdate = async () => {
+    try {
+      const response = await getSellers(accessToken);
+      if (response && response.data) {
+        setSellersData(response.data);
+        console.log("Response de getSellers:", response);
+      }
+    } catch (error) {
+      console.error("Error al obtener vendedores:", error);
+    }
+  };
+
   useEffect(() => {
     if (accessToken) {
-  
-
       fetchSellersData();
     } else {
       console.log("No se puede obtener vendedores sin token de acceso");
@@ -85,44 +109,52 @@ const ListSeller = () => {
   );
   const approveRequest = async (idSeller, accessToken) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/sellers/applicationResponse/${idSeller}?status=true`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
+      const response = await fetch(
+        `http://localhost:8080/api/sellers/applicationResponse/${idSeller}?status=true`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-      });
+      );
       if (response.ok) {
-        console.log('Solicitud aprobada');
-        fetchSellersData();
+        toast.success("Solicitud aprobada");
+        fetchSellerDataAndUpdate(); // Actualiza los datos después de la acción
       } else {
-        console.error('Error al aprobar la solicitud');
+        toast.error("Error al aprobar la solicitud");
       }
     } catch (error) {
-      console.error('Error al comunicarse con el servidor:', error);
+      toast.error("Error al comunicarse con el servidor");
+      console.error("Error al comunicarse con el servidor:", error);
     }
   };
-  
+
   const rejectRequest = async (idSeller, accessToken) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/sellers/applicationResponse/${idSeller}?status=false`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
+      const response = await fetch(
+        `http://localhost:8080/api/sellers/applicationResponse/${idSeller}?status=false`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-      });
+      );
       if (response.ok) {
-        console.log('Solicitud rechazada');
-        fetchSellersData();
+        toast.success("Solicitud rechazada");
+        fetchSellerDataAndUpdate(); // Actualiza los datos después de la acción
       } else {
-        console.error('Error al rechazar la solicitud');
+        toast.error("Error al rechazar la solicitud");
       }
     } catch (error) {
-      console.error('Error al comunicarse con el servidor:', error);
+      toast.error("Error al comunicarse con el servidor");
+      console.error("Error al comunicarse con el servidor:", error);
     }
   };
-  
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const pageNumbers = [];
@@ -148,7 +180,8 @@ const ListSeller = () => {
       )}
       <div className="row">
         <div className="col-12">
-          <SideBar/>
+          <SideBar />
+          <h5>Solicitudes de vendedores</h5>
           {currentSellers.map((seller) => (
             <Card key={seller.idSeller} className="mb-3 card-user">
               <Card.Body className="d-flex align-items-center justify-content-between">
@@ -181,30 +214,64 @@ const ListSeller = () => {
                       {seller.status ? "Activo" : "Inactivo"}
                     </span>
                   </div>
-                  <img
-                    src={seller.ineLink}
-                    alt={`Imagen de ${seller.user.name}`}
-                    className="img-fluid"
-                    style={{ maxWidth: "200px" }}
-                  />
                 </div>
                 <div className="mb-0">
-                <button
-                  onClick={() => approveRequest(seller.idSeller, accessToken)}
-                  className="btn btn-success me-2"
-                >
-                  Aprobar solicitud
-                </button>
-                <button
-                  onClick={() => rejectRequest(seller.idSeller, accessToken)}
-                  className="btn btn-danger"
-                >
-                  Rechazar solicitud
-                </button>
-              </div>
+                  <button
+                    className="btn me-2"
+                    style={{ borderColor: "#FF6FC4", color: "#FF6FC4" }}
+                    onClick={() => openModal(seller)}
+                  >
+                    Ver detalles
+                  </button>
+                  <button
+                    onClick={() => approveRequest(seller.idSeller, accessToken)}
+                    className="btn btn-success me-2"
+                  >
+                    Aprobar solicitud
+                  </button>
+                  <button
+                    onClick={() => rejectRequest(seller.idSeller, accessToken)}
+                    className="btn btn-danger"
+                  >
+                    Rechazar solicitud
+                  </button>
+                </div>
               </Card.Body>
             </Card>
           ))}
+          {/* Modal para mostrar los detalles del vendedor */}
+          {selectedSeller && (
+            <Modal show={showModal} onHide={closeModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Detalles del vendedor</Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="text-center">
+                <h5>{`${selectedSeller.user.name} ${selectedSeller.user.lastname}`}</h5>
+                <p>Email: {selectedSeller.user.email}</p>
+                <p>Shop Type: {selectedSeller.shopType}</p>
+                <span
+                  className={`badge ${
+                    selectedSeller.status ? "bg-success" : "bg-danger"
+                  }`}
+                >
+                  {selectedSeller.status ? "Activo" : "Inactivo"}
+                </span>{" "}
+                <p></p>
+                <img
+                  src={selectedSeller.ineLink}
+                  alt={`Imagen de ${selectedSeller.user.name}`}
+                  className="img-fluid"
+                  style={{ maxWidth: "200px" }}
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <button className="btn btn-secondary" onClick={closeModal}>
+                  Cerrar
+                </button>
+              </Modal.Footer>
+            </Modal>
+          )}
+          {/* Fin del modal */}
           <div className="d-flex justify-content-center align-items-center">
             <Pagination>{pageNumbers}</Pagination>
           </div>

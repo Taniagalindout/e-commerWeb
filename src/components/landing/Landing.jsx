@@ -12,6 +12,7 @@ function Landing() {
     fontSize: '24px',
     color: '#4d53dd', 
     textDecoration: 'none', 
+    fontWeight: 'bold',
   };
 
   return (
