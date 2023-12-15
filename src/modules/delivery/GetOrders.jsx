@@ -135,7 +135,6 @@ const Deliveries = () => {
                           )}
                         </div>
                         <div>
-                          <ChangeDelivery></ChangeDelivery>
                           <div className="text-center mt-2">
                             <FaCarSide size={100} color="#47BAF4"  />
                           </div>
