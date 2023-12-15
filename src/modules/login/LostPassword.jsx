@@ -62,9 +62,9 @@ const LostPassword = () => {
                   variant="top"
                   src={passwordImg}
                   style={{
-                    maxWidth: "100%",
-                    height: "auto",
-                    width: "100%",
+                    maxWidth: "90%",
+                    height: 300,
+                    width: 300,
                     marginBottom: "20px",
                   }}
                 />

@@ -21,6 +21,7 @@ import DashboardGeneral from './modules/admin/dashboard-general/DashboardGeneral
 import ListSeller from './modules/admin/sellers/ListSeller';
 import ListOrdersUser from './modules/products/orders/ListOrdersUser';
 import HomeAdmin from './modules/admin/HomeAdmin';
+import Deliveries from './modules/delivery/GetOrders';
 function App() {
   return (
     <div className="App">
@@ -46,6 +47,8 @@ function App() {
           <Route path="/listsellers" element={<ListSeller />} />
           <Route path='/shopping' element={<ListOrdersUser/>} />
           <Route path="/home-admin/*" element={<HomeAdmin />} />
+          <Route path="/deliveries" element={<Deliveries />} />
+
 
         </Routes>
       </Router>

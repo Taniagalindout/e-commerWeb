@@ -18,14 +18,18 @@ const ChangePassword = () => {
     validatePassword(e.target.value);
   };
 
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-  };
-
   const validatePassword = (password) => {
-    
     const isValidPassword = password.length >= 6;
     setValidPassword(isValidPassword);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    if (password !== e.target.value) {
+      setValidPassword(false);
+    } else {
+      setValidPassword(true);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -44,7 +48,7 @@ const ChangePassword = () => {
 
     try {
       const data = { password };
-      const response = await changePassword(data); 
+      const response = await changePassword(data);
       console.log(response);
       if (response.status === 200) {
         toast.success("¡Contraseña cambiada exitosamente!");
@@ -64,16 +68,6 @@ const ChangePassword = () => {
             <Card className="mt-3 cardPass">
               <Card.Body className="text-center">
                 <Card.Title>Cambiar contraseña</Card.Title>
-                <Card.Img
-                  variant="top"
-                  src={passwordImg}
-                  style={{
-                    maxWidth: "100%",
-                    height: "auto",
-                    width: "100%",
-                    marginBottom: "20px",
-                  }}
-                />
                 <Card.Text className="mt-3">
                   Ingresa tu nueva contraseña y confírmala para cambiarla
                 </Card.Text>
@@ -96,6 +90,7 @@ const ChangePassword = () => {
                       </span>
                     )}
                   </label>
+                  <p></p>
                   <label>
                     Confirmar Contraseña:
                     <input
@@ -103,19 +98,24 @@ const ChangePassword = () => {
                       value={confirmPassword}
                       onChange={handleConfirmPasswordChange}
                       required
+                      className={`input-form ${
+                        formSubmitted && password !== confirmPassword
+                          ? "input-error"
+                          : ""
+                      }`}
                     />
+                    {formSubmitted && password !== confirmPassword && (
+                      <span className="error-message">
+                        Las contraseñas no coinciden
+                      </span>
+                    )}
                   </label>
-                  {formSubmitted && password !== confirmPassword && (
-                    <span className="error-message">
-                      Las contraseñas no coinciden
-                    </span>
-                  )}
-                  <Button className="button-form login" type="submit">
-                    <span className="login-button-text">Cambiar Contraseña</span>
-                  </Button>
+                  <button className="button-form login" type="submit">
+                    <span className="login-button-text">Enviar</span>
+                  </button>
                   <p></p>
-                  <Link to="/lostpass" className="forgot-password">
-                    ¿Olvidaste tu contraseña?
+                  <Link to="/login" className="forgot-password">
+                    Inicia sesion
                   </Link>
                 </form>
               </Card.Body>

@@ -1,4 +1,3 @@
-import React from "react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -17,8 +16,6 @@ import {
   FaAddressCard 
 } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import "../../assets/css/colors.css";
 
 function SideBar() {
@@ -109,8 +106,7 @@ function SideBar() {
             <FaUserAlt /> Perfil
           </Nav.Link>
 
-          <Nav.Link href="/users">Pedidos</Nav.Link>
-          <Nav.Link href="/users">Orders</Nav.Link>
+          <Nav.Link href="/deliveries">Pedidos</Nav.Link>
           <Nav.Link as={Link} to="/login" onClick={handleLogout}>
             Logout
           </Nav.Link>
