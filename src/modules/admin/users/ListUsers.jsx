@@ -126,7 +126,7 @@ const ListUsers = () => {
       <div className="row">
         <div className="col-12">
           <SideBar />
-
+          <h5>Usuarios</h5>
           {currentUsers.map((user) => (
             <Card key={user.idUser} className="mb-3 card-user">
               <Card.Body className="d-flex align-items-center justify-content-between">

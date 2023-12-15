@@ -156,7 +156,7 @@ const DashboardGeneral = () => {
         <div class="col-lg-9 my-lg-0 my-1">
           <div id="main-content" class="app-container border">
             <div class="d-flex flex-column">
-              <div class="h5">Bienvenido</div>
+              <div class="h5">Ventas generales</div>
             </div>
             <div class="d-flex my-4 flex-wrap">
               <div class="box me-4 my-1 bg-sale-light">

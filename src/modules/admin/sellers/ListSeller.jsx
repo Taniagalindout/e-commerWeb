@@ -6,7 +6,6 @@ import { FiWifi } from "react-icons/fi";
 import { getSellers } from "../../../service/admin-seller/ListSellers";
 import SideBar from "../../../components/generals/Siderbar";
 import "../../../assets/css/user.css";
-import SellerOptionsAdmin from "../components/SellerOptionAdmin";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
@@ -182,6 +181,7 @@ const ListSeller = () => {
       <div className="row">
         <div className="col-12">
           <SideBar />
+          <h5>Solicitudes de vendedores</h5>
           {currentSellers.map((seller) => (
             <Card key={seller.idSeller} className="mb-3 card-user">
               <Card.Body className="d-flex align-items-center justify-content-between">
@@ -217,7 +217,8 @@ const ListSeller = () => {
                 </div>
                 <div className="mb-0">
                   <button
-                    className="btn btn-info me-2"
+                    className="btn me-2"
+                    style={{ borderColor: "#FF6FC4", color: "#FF6FC4" }}
                     onClick={() => openModal(seller)}
                   >
                     Ver detalles

@@ -104,6 +104,7 @@ const Deliveries = () => {
       <div className="row">
         <div className="col-12">
           <SideBar />
+          <h5>Ordenes</h5>
           <div className="row">
             {currentItems.map((orderItem) => (
               <div key={orderItem.idOrderItems} className="col-md-4 mb-3">
