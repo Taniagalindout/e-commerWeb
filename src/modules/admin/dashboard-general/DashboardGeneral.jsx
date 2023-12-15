@@ -144,7 +144,7 @@ const DashboardGeneral = () => {
 
   return (
     <div className="container-fluid">
-      <SellerOptionsAdmin />
+      <SideBar />
 
       <div className="row">
         {showConnectionAlert && (

@@ -148,7 +148,7 @@ const ListSeller = () => {
       )}
       <div className="row">
         <div className="col-12">
-          <SellerOptionsAdmin />
+          <SideBar/>
           {currentSellers.map((seller) => (
             <Card key={seller.idSeller} className="mb-3 card-user">
               <Card.Body className="d-flex align-items-center justify-content-between">

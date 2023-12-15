@@ -125,7 +125,7 @@ const ListUsers = () => {
       )}
       <div className="row">
         <div className="col-12">
-          <SellerOptionsAdmin />
+          <SideBar />
 
           {currentUsers.map((user) => (
             <Card key={user.idUser} className="mb-3 card-user">
