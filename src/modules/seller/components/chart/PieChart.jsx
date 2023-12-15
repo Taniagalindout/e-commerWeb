@@ -14,11 +14,11 @@ useEffect(()=>{
   chartInstance.current = new Chart(myChartRef,{
     type: "pie",
     data:{
-      labels: ['Apple', 'Amazon', 'Paypal'],
+      labels: ['Eletonic', 'Clothes', 'Health and beauty'],
       datasets: [
         {
           label: '# of votes',
-          data: [12, 19, 2],
+          data: [4, 5, 1],
           backgroundColor: [
             'rgba(255, 99, 132)',
             'rgba(54, 162, 235)',

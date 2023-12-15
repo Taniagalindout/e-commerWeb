@@ -3,7 +3,7 @@ import '../../../../assets/css/seller.css';
 import PieChart from '../chart/PieChart';
 import { FaStar, FaUsers, FaShoppingCart, FaDonate, FaChartLine } from "react-icons/fa";
 import { toast } from 'react-toastify';
-
+import Mouse from '../../../../assets/images/mouse.jpg'
 const Dashboard = () => {
     const [totalSales, setTotalSales] = useState(0);
     const [totalIncome, setTotalIncome] = useState(0);
@@ -42,7 +42,7 @@ const Dashboard = () => {
 
         const { token, idSeller } = credentials;
 
-        const response = await fetch(`http://localhost:8080/api/order-items/count-orders-by-seller/${idSeller}`, {
+        const response = await fetch(`http://localhost:8080/api/order-items/count-orders-by-seller/1`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -75,7 +75,7 @@ const Dashboard = () => {
         const { token, idSeller } = credentials;
     
         try {
-            const response = await fetch(`http://localhost:8080/api/order-items/total-income-by-seller/${idSeller}`, {
+            const response = await fetch(`http://localhost:8080/api/order-items/total-income-by-seller/1`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -119,7 +119,7 @@ const Dashboard = () => {
 
                                 <div class="d-flex align-items-center mt-2">
                                     <div class="tag">Clientes</div>
-                                    <div class="ms-auto number">1</div>
+                                    <div class="ms-auto number">{totalSales}</div>
                                 </div>
                             </div>
                             <div class="box me-4 my-1 bg-sale-light">
@@ -143,34 +143,33 @@ const Dashboard = () => {
 
                         <div class="text-uppercase">Mis pedidos Recientes</div>
 
-                        <div class="order my-2 bg-sale-light " >
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="d-flex flex-column justify-content-between order-summary">
-                                        <div class="d-flex align-items-center">
-                                            <div class="text-uppercase">Orden #fur10001</div>
-                                            <div class="green-label ms-auto text-uppercase">cod</div>
-                                        </div>
-                                        <div class="fs-8">Producto #03</div>
-                                        <div class="fs-8">22 August, 2020 | 12:05 PM</div>
-                                        <div class="rating d-flex align-items-center pt-1">
-                                            <span class="px-2">Rating:</span>
-                                            <FaStar color="#FFC000" />
-                                            <FaStar color="#FFC000" />
-                                            <FaStar color="#FFC000" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
-                                        <div class="status">Status : Entregado</div>
-                                        <div class="btn btn-primary text-uppercase">Ver orden</div>
-                                    </div>
-                                  
-                                </div>
 
-                            </div>
-                        </div>
+                        <div  className="order my-2 bg-sale-light">
+    <div className="row">
+      <div className="col-lg-2">
+        <img className="order-image"  src={Mouse} />
+      </div>
+      <div className="col-lg-4">
+        <div className="d-flex flex-column order-summary">
+          <div className="text-uppercase">Orden: MOUSE GAMER</div>
+          <div className="fs-8">Categoria: <span>electonic</span></div>
+          <div className="fs-8">15 Diciembre, 2023</div>
+        </div>
+      </div>
+      <div className="col-lg-4">
+        <div className="d-sm-flex align-items-sm-start justify-content-sm-between">
+          <div className="d-flex flex-column">
+            <div className="fs-8">Repartidor: <span>vendor</span></div>
+            <div className="fs-8">Cantidad: <span>12</span></div>
+            <div className="text-uppercase">Total:1222 <span></span></div>
+          </div>
+          <div className="green-label ms-auto text-uppercase">Pagado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+                     
 
                     
                     </div>
@@ -181,10 +180,8 @@ const Dashboard = () => {
                     <div className="d-flex justify-content-center">
                         <PieChart />
                     </div>
-                    <div class="title-chart mt-3">Categorias mas vendidas:</div>
-                    <div className="d-flex justify-content-center ">
-                        <PieChart />
-                    </div>
+                    {/* <div class="title-chart mt-3">Categorias mas vendidas:</div> */}
+                   
                 </div>
             </div>
         </div>

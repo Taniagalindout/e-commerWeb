@@ -15,6 +15,7 @@ import {
   FaTruck,
   FaUsers,
   FaHome,
+  FaShoppingCart ,
   FaAddressCard,
   FaArrowRight 
 } from "react-icons/fa";
@@ -77,6 +78,9 @@ function SideBar() {
           </Nav.Link>
           <Nav.Link href="/shopping" style={{ color: "#4D53DD" }}>
             <FaShoppingBag color="#4D53DD" /> Mis Productos
+          </Nav.Link>
+          <Nav.Link href="/cart" style={{ color: "#4D53DD" }}>
+            <FaShoppingCart  color="#4D53DD" /> Carrito
           </Nav.Link>
           <Nav.Link as={Link} to="/login" style={{ color: "#4D53DD" }}  onClick={handleLogout}>
           <FaArrowRight color="#4D53DD" /> Logout
