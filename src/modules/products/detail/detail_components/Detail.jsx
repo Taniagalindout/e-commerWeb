@@ -221,9 +221,9 @@ const Detail = (props) => {
         </div>
       )}
       {productDetails && (
-        <div className="details" key={productDetails._id}>
+        <div className="details"key={productDetails.idProduct}>
           <div className="big-img">
-            <img src={productDetails.imageLinks[0] || defaultImage} alt="Product" />
+          <img src={productDetails.imageLinks?.[0]?.url || defaultImage} alt={productDetails.name} />
           </div>
           <div className="box">
             <div className="row">

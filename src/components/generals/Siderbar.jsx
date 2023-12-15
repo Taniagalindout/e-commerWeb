@@ -6,15 +6,7 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import {
-  FaUserAlt,
-  FaArrowRight,
-  FaHeart,
-  FaList,
-  FaUsers,
-  FaTh,
-  FaAddressCard 
-} from "react-icons/fa";
+import { FaUserAlt, FaCartPlus } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
 import "../../assets/css/colors.css";
 
@@ -61,27 +53,13 @@ function SideBar() {
     console.log("User role:", userRole);
 
     if (userRole === 1) {
-      console.log("Rendering Mis Favoritos");
+      console.log("Rendering My Favorites");
       return (
         <>
-          <Nav.Link href="/profile">
-            <FaUserAlt className="secondaryColor" />{" "}
-            <span className="secondaryColor">Perfil</span>
-          </Nav.Link>
-
-          <Nav.Link href="/wishlist">
-            <FaHeart className="secondaryColor" />{" "}
-            <span className="secondaryColor">Mis Favoritos</span>
-          </Nav.Link>
-
-          <Nav.Link href="/myproducts">
-            <FaList className="secondaryColor" />{" "}
-            <span className="secondaryColor">Mis Productos</span>
-          </Nav.Link>
-
+          <Nav.Link href="/wishlist">Mis Favoritos</Nav.Link>
+          <Nav.Link href="/shopping">Mis Productos</Nav.Link>
           <Nav.Link as={Link} to="/login" onClick={handleLogout}>
-          <FaArrowRight className="secondaryColor" />{" "}
-            <span className="secondaryColor">Cerrar sesión</span>
+            Logout
           </Nav.Link>
         </>
       );
@@ -89,10 +67,8 @@ function SideBar() {
       console.log("Rendering Sales");
       return (
         <>
-          <Nav.Link href="/profile">
-            <FaUserAlt /> Perfil
-          </Nav.Link>
-          <Nav.Link href="/sales">Mis ordenes</Nav.Link>
+          <Nav.Link href="/home-seller/">Dashboard</Nav.Link>
+          <Nav.Link href="/home-seller/orders">My Orders</Nav.Link>
           <Nav.Link as={Link} to="/login" onClick={handleLogout}>
             Logout
           </Nav.Link>
@@ -115,32 +91,6 @@ function SideBar() {
     } else if (userRole === 4) {
       return (
         <>
-          <>
-          <Nav.Link href="/profile">
-            <FaUserAlt className="secondaryColor" />{" "}
-            <span className="secondaryColor">Perfil</span>
-          </Nav.Link>
-
-            <Nav.Link href="/listusers">
-            <FaUsers className="secondaryColor" />{" "}
-            <span className="secondaryColor">Usuarios</span>
-            </Nav.Link>
-
-            <Nav.Link href="/dashgral">
-            <FaTh className="secondaryColor" />{" "}
-            <span className="secondaryColor">Dashboard</span>
-            </Nav.Link>
-
-            <Nav.Link href="/listsellers">
-            <FaAddressCard className="secondaryColor" />{" "}
-            <span className="secondaryColor">Solicitudes</span>
-            </Nav.Link>
-
-            <Nav.Link as={Link} to="/login" onClick={handleLogout}>
-          <FaArrowRight className="secondaryColor" />{" "}
-            <span className="secondaryColor">Cerrar sesión</span>
-          </Nav.Link>
-          </>
           <Nav.Link href="/users">Users</Nav.Link>
           <Nav.Link as={Link} to="/login" onClick={handleLogout}>
             Logout
@@ -150,9 +100,7 @@ function SideBar() {
     } else {
       return (
         <>
-          <Nav.Link className="primaryColor" href="/">
-            <span className="primaryColor">Home</span>
-          </Nav.Link>
+          <Nav.Link href="/">Inicio</Nav.Link>
         </>
       );
     }
@@ -179,6 +127,10 @@ function SideBar() {
                 className="me-2"
                 aria-label="Search"
               />
+              <Link to="/cart">
+                <FaCartPlus size={25} color="#4D53DD" className="me-2" />
+              </Link>
+              <FaUserAlt size={25} color="#4D53DD" className="me-2" />
               <Navbar.Toggle
                 aria-controls={`offcanvasNavbar-expand-${expand}`}
               />
@@ -191,13 +143,7 @@ function SideBar() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  <img
-                    src={Logo}
-                    width="90"
-                    height="30"
-                    className="d-inline-block align-top"
-                    alt="Logo"
-                  />{" "}
+                  Options
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>

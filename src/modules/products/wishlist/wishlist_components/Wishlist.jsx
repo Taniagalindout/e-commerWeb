@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { FiWifi } from "react-icons/fi";
 
 const Wishlist = () => {
+
+  
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -130,11 +132,9 @@ const Wishlist = () => {
           {wishlist.map((item) => (
             <div className="cart-item2" key={item.idProduct}>
               <div className="cart-product">
-                {item.imageLinks && item.imageLinks.length > 0 ? (
-                  <img src={item.imageLinks[0]} alt="Product" />
-                ) : (
-                  <img src={defaultImage} alt="Default" />
-                )}
+              
+
+                <img src={item.imageLinks?.[0]?.url || defaultImage} alt={item.name} />
                 <div>
                   <h4 className="fav2">
                     {item.name}{' '}

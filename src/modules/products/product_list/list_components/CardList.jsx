@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 import defaultImage from '../../../../assets/images/view.png';
 
 const CardList = (props) => {
-  const imageUrl = Array.isArray(props.url) && props.url.length > 0 ? props.url[0].url : defaultImage;
+
+
+  
+  const imageUrl = props.url.length > 0 ? props.url[0].url : defaultImage;
   
   return (
     

@@ -137,12 +137,12 @@ const Cart = (props) => {
             <div className="cart-items">
               {orderItems.map((item) => {
                 const product = item.product || {};
-                const imageSrc = product.imageLinks && product.imageLinks.length > 0 ? product.imageLinks[0] : defaultImage;
-
+                
                 return (
                   <div className="cart-item" key={item.idOrderItemProduct}>
                     <div className="cart-product">
-                      <img src={imageSrc} alt={product.name} />
+                 
+                      <img src={product.imageLinks?.[0]?.url || defaultImage} alt={product.name} />
                       <div>
                         <h3>{product.name}</h3>
                         <p>{product.category.name}</p>
