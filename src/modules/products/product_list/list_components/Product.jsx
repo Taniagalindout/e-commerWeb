@@ -130,7 +130,7 @@ const Product = (props) => {
                             key={product.idProduct}
                             id={product.idProduct}
                             name={product.name}
-                            url={product.imageLinks.length > 0 ? product.imageLinks[0].url : defaultImage}
+                            url={product.imageLinks}
                             price={product.price}
                             rating={product.seller.user.rating}
                             quantityAvailable={product.quantityAvailable}
