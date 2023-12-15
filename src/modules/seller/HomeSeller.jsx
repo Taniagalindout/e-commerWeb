@@ -7,12 +7,13 @@ import {
 
  
 import Dashboard from "./components/dashboard/Dashboard";
-import SellerOptions from "./components/root/SellerOptions";
+// import SellerOptions from "./components/root/SellerOptions";
+import SideBar from "../../components/generals/Siderbar";
 import ListOrders from "./orders/ListOrders";
 const HomeSeller = () => {
     return ( 
         <div className="app">
-            <SellerOptions/>
+            <SideBar/>
            
         <Routes>
         <Route path='/' element={<Dashboard />} />
