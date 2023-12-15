@@ -20,7 +20,7 @@ const Register = () => {
     email: "",
     password: "",
     rol: {
-      idRol: 3,
+      idRol: 4,
     },
   });
   const navigate = useNavigate();
