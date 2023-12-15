@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { createProduct } from '../../../../service/productseller/ProductSeller';
 import { orderData } from '../utilities/orderData';
+import { toast } from 'react-toastify';
+
 
 const Orders = () => {
 
@@ -18,6 +20,9 @@ const Orders = () => {
         {"id": 10, "name": "Mascotas"},
     ];
 
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
+
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -26,23 +31,70 @@ const Orders = () => {
         category: '',
         description: '',
         tags: '',
-        images: []
+        images: [] // Este será un array de objetos File
     });
 
-    const handleCloseModal = () => setShowModal(false);
-    const handleShowModal = () => setShowModal(true);
+    const [validationErrors, setValidationErrors] = useState({
+        name: "",
+        price: "",
+        quantityAvailable: "",
+        category: "",
+        description: "",
+        tags: "",
+        images: ""
+    });
 
     const handleInputChange = (event) => {
-        const { id, value } = event.target;
-        setFormData({ ...formData, [id]: value });
+    const { name, value, files } = event.target;
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleImagesChange = (event) => {
-        setFormData({ ...formData, images: [...event.target.files] });
+        if (event.target.files.length > 0) {
+            setFormData({ ...formData, images: [...event.target.files] });
+        }
+    };
+
+    const validateForm = () => {
+        let isValid = true;
+        let errors = {};
+
+        if (formData.name.trim() === '') {
+            isValid = false;
+            errors.name = "El nombre del producto es requerido.";
+        }
+        if (!formData.price) {
+            isValid = false;
+            errors.price = "El precio del producto es requerido.";
+        }
+        if (!formData.quantityAvailable) {
+            isValid = false;
+            errors.quantityAvailable = "La cantidad disponible es requerida.";
+        }
+        if (!formData.category) {
+            isValid = false;
+            errors.category = "La categoría del producto es requerida.";
+        }
+        if (formData.description.trim() === '') {
+            isValid = false;
+            errors.description = "La descripción del producto es requerida.";
+        }
+        if (formData.images.length === 0) {
+            isValid = false;
+            errors.images = "Al menos una imagen del producto es requerida.";
+        }
+
+        setValidationErrors(errors);
+        return isValid;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!validateForm()) {
+            toast.error("Revisa los errores en el formulario.");
+            return;
+        }
 
         const productData = new FormData();
         productData.append('product', JSON.stringify({
@@ -51,8 +103,7 @@ const Orders = () => {
             quantityAvailable: parseInt(formData.quantityAvailable, 10),
             category: { idCategory: parseInt(formData.category, 10) },
             description: formData.description,
-            tags: formData.tags.split(',').map(tag => tag.trim()),
-            seller: { idSeller: 10 } // Asume que el id del vendedor es 1, ajustar según sea necesario
+            tags: formData.tags
         }));
         formData.images.forEach(file => {
             productData.append('images', file);
@@ -60,12 +111,15 @@ const Orders = () => {
 
         try {
             const response = await createProduct(productData);
-            console.log(response);
+            console.log('Producto registrado:', response);
+            toast.success('Producto registrado con éxito');
             handleCloseModal();
         } catch (error) {
             console.error('Error al registrar el producto:', error);
+            toast.error('Error al registrar el producto');
         }
     };
+
 
     return (
         <div className="container-fluid">
@@ -78,8 +132,8 @@ const Orders = () => {
                                 Registrar Producto
                             </Button>
                         </div>
-                       
-{orderData.map((order) => (
+    //como visualizar pedido                   
+{/* {orderData.map((order) => (
   <div key={order.id} className="order my-2 bg-sale-light">
     <div className="row">
       <div className="col-lg-2">
@@ -104,7 +158,7 @@ const Orders = () => {
       </div>
     </div>
   </div>
-))}
+))} */}
                     </div>
                 </div>
             </div>
@@ -119,7 +173,7 @@ const Orders = () => {
                             <Form.Control 
                               type="text" 
                               placeholder="Ingresa nombre del producto" 
-                              value={formData.name}
+                              // value={formData.name}
                               onChange={handleInputChange} />
                         </Form.Group>
 
@@ -182,8 +236,3 @@ const Orders = () => {
 }
 
 export default Orders;
-
-
-
-
-
