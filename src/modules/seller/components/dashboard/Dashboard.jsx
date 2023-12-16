@@ -133,7 +133,7 @@ const Dashboard = () => {
                                 <FaDonate className='icons-cards' />
                                 <div class="d-flex align-items-center mt-2">
                                     <div class="tag">Ingresos</div>
-                                    <div className="ms-auto number">{totalIncome}</div>
+                                    <div className="ms-auto number">12</div>
                                 </div>
 
                             </div>
